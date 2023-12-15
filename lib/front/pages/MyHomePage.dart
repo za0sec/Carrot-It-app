@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../back/Person.dart';
 import '../main.dart';
-import 'SecondPage.dart';
+import 'HomePage.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -19,18 +19,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    _checkSavedPerson();
     super.initState();
+    _checkSavedPerson();
   }
-
-  Future<void> _checkSavedPerson() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? personJson = prefs.getString('savedPerson');
-    if (personJson != null) {
-      Navigator.pushReplacementNamed(context, '/second');
-    }
-  }
-
 
   @override
   void dispose() {
@@ -100,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SecondPage(person: newPerson),
+                      builder: (context) => HomePage(person: newPerson),
                     ),
                   );
                   _savePerson(newPerson);
@@ -143,9 +134,27 @@ class _MyHomePageState extends State<MyHomePage> {
     String? personJson = prefs.getString('savedPerson');
     if (personJson != null) {
       Map<String, dynamic> personMap = json.decode(personJson);
-      return Person(personMap['name']); // Asegúrate de que esto coincida con la estructura de tu clase Person
+      return Person(personMap['name']);
     }
     return null;
+  }
+
+  Future<void> _checkSavedPerson() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? personJson = prefs.getString('savedPerson');
+    if (personJson != null) {
+      Map<String, dynamic> personMap = json.decode(personJson);
+      Person newPerson = Person(personMap['name']);
+
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(person: newPerson),
+          ),
+        );
+      }
+    }
   }
 
 }

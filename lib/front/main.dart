@@ -1,5 +1,6 @@
 import 'package:carrot/front/pages/MyHomePage.dart';
-import 'package:carrot/front/pages/SecondPage.dart';
+import 'package:carrot/front/pages/HomePage.dart';
+import 'package:carrot/front/pages/SettingsScreen.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,13 +25,14 @@ class MyApp extends StatelessWidget {
         title: 'CarrotApp',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFfb901c)),
         ),
         home: MyHomePage(),
         routes: {
-          '/second': (context) => SecondPage(
+          '/second': (context) => HomePage(
                 person: Person(''),
               ),
+          '/settings': (context) => SettingsScreen(),
         },
       ),
     );
