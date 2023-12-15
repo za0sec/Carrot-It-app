@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../back/Person.dart';
@@ -8,7 +7,7 @@ class Profile extends StatefulWidget {
 
   final Person person;
 
-  const Profile({Key? key, required this.person}) : super(key: key);
+  const Profile({super.key, required this.person});
 
   @override
   State<Profile> createState() => _State();
@@ -19,7 +18,7 @@ class _State extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('Hi ${widget.person.name}!'),
         actions: [
           Builder(
             builder: (context) => IconButton(
@@ -39,7 +38,7 @@ class _State extends State<Profile> {
       body:SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 200,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,

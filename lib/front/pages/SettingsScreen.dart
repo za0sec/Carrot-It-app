@@ -8,7 +8,7 @@ class SettingsScreen extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            color: Theme.of(context).primaryColor,
+            color: Color(0xFFfb901c),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(

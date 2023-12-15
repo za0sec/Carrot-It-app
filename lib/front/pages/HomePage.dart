@@ -1,15 +1,13 @@
 import 'package:carrot/front/pages/Motivation.dart';
 import 'package:flutter/material.dart';
 import '../../back/Person.dart';
-import '../main.dart';
 import 'Carrots.dart';
 import 'Profile.dart';
-import 'SettingsScreen.dart';
 
 class HomePage extends StatefulWidget {
   final Person person;
 
-  const HomePage({Key? key, required this.person}) : super(key: key);
+  const HomePage({super.key, required this.person});
 
   @override
   State<HomePage> createState() => _MotivationalState();
@@ -25,9 +23,8 @@ class _MotivationalState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // Inicializar las páginas aquí
     pages = [
-      Motivation(),
+      Motivation(person: widget.person),
       Carrots(person: widget.person),
       Profile(person: widget.person),
     ];

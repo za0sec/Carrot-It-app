@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         home: MyHomePage(),
         routes: {
           '/second': (context) => HomePage(
-                person: Person(''),
+                person: Person('', 0),
               ),
           '/settings': (context) => SettingsScreen(),
         },

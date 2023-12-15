@@ -1,9 +1,6 @@
-import 'dart:convert';
 
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../back/Person.dart';
 import '../main.dart';
@@ -17,9 +14,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _nameController = TextEditingController();
 
+  late Person person;
+
   @override
   void initState() {
     super.initState();
+    person = Person('', 0);
     _checkSavedPerson();
   }
 
@@ -86,18 +86,17 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  final Person newPerson = Person(_nameController.text);
-                  print('New person instance: ${newPerson.name}');
+                  person = Person(_nameController.text, 0);
+                  print('New person instance: $person');
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(person: newPerson),
+                      builder: (context) => HomePage(person: person),
                     ),
                   );
-                  _savePerson(newPerson);
+                  person.save();
                 },
                 style: ElevatedButton.styleFrom(
-                  //aqui abajo pongo el boton mas cuadrado
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -107,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 child: Text('Next',
                   style: TextStyle(
-                    color: Color(0xFFfb901c), // Color del texto del botón
+                    color: Color(0xFFfb901c),
                   ),
                 ),
               ),
@@ -119,41 +118,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<void> _savePerson(Person person) async {
-    final prefs = await SharedPreferences.getInstance();
-    final Map<String, dynamic> personMap = {
-      'name': person.name,
-      // Añade aquí otros campos si los hay
-    };
-    String personJson = json.encode(personMap);
-    await prefs.setString('savedPerson', personJson);
-  }
-
-  Future<Person?> _getSavedPerson() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? personJson = prefs.getString('savedPerson');
-    if (personJson != null) {
-      Map<String, dynamic> personMap = json.decode(personJson);
-      return Person(personMap['name']);
-    }
-    return null;
-  }
-
   Future<void> _checkSavedPerson() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? personJson = prefs.getString('savedPerson');
-    if (personJson != null) {
-      Map<String, dynamic> personMap = json.decode(personJson);
-      Person newPerson = Person(personMap['name']);
-
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomePage(person: newPerson),
-          ),
-        );
-      }
+    final personN = await person.getSavedPerson();
+    if (personN != null && mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(person: personN),
+        ),
+      );
     }
   }
 

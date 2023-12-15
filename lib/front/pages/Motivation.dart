@@ -1,16 +1,29 @@
-import 'package:flutter/cupertino.dart';
+import 'package:carrot/front/pages/widgets/Pills.dart';
+import 'package:carrot/front/pages/widgets/Soon.dart';
 import 'package:flutter/material.dart';
 
+import '../../back/Person.dart';
 import 'SettingsScreen.dart';
 
 class Motivation extends StatefulWidget {
-  const Motivation ({super.key});
+  final Person person;
+
+  const Motivation({super.key, required this.person});
 
   @override
   State<Motivation> createState() => _State();
 }
 
 class _State extends State<Motivation> {
+
+  late List boxContent;
+
+  @override
+  void initState(){
+    super.initState();
+    boxContent = [Pills(person: widget.person), Soon(), Soon(), Soon(), Soon(), Soon(), Soon()];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,44 +45,41 @@ class _State extends State<Motivation> {
         ],
       ),
       endDrawer: SettingsScreen(),
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
+            SizedBox(height: 20),
+            Text(
+            'Games',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 38,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFFfb901c),
+              ),
+            ),
+          SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.all(10.0), // Agrega espaciado alrededor de la cuadrícula
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 15,
+                  childAspectRatio: 3 / 3,
+                ),
+                itemCount: 7,
                 itemBuilder: (context, index) {
-                  return Card(
-                    child: Container(
-                      width: 160,
-                    ),
-                  );
+                  return boxContent[index];
                 },
               ),
             ),
-
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Text('Pastillas Anticonceptivas'),
-                    leading: Icon(Icons.category),
-                    subtitle: Text('Detalles del minijuego ${index + 1}'),
-                    trailing: Text('${(index + 1) * 100} Carrots'),
-                  ),
-                );
-              },
-            ),
           ],
-
         ),
       ),
+
 
     );
   }
