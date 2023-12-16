@@ -22,11 +22,7 @@ class _State extends State<Profile> {
         actions: [
           Builder(
             builder: (context) => IconButton(
-              icon: ImageIcon(
-                AssetImage('lib/front/assets/images/Carrot.png'),
-                color: Color(0xFFfb901c),
-                size: 60,
-              ),
+              icon: Icon(Icons.settings, color: Color(0xFFfb901c), size: 31),
               onPressed: () {
                 Scaffold.of(context).openEndDrawer();
               },

@@ -12,6 +12,11 @@ class Person {
     return name;
   }
 
+  void redeemPrice(int carrots){
+    this.carrots -= carrots;
+    save();
+  }
+
   void setCarrots(int carrots){
     this.carrots += carrots;
     save();

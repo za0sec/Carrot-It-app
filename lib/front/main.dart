@@ -11,8 +11,6 @@ void main() {
   runApp(MyApp());
 }
 
-//el alumno le pregunto al profesor como poder ponerle un fondo a la app de color naranja y el profesor le dijo que lo hiciera con el colorScheme y el seedColor
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

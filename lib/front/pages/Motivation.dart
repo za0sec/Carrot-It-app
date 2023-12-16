@@ -38,7 +38,6 @@ class _State extends State<Motivation> {
                 size: 60,
               ),
               onPressed: () {
-                Scaffold.of(context).openEndDrawer();
               },
             ),
           ),
