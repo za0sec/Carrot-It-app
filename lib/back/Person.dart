@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Person {
   String name;
   int carrots;
+  String? token;
   Person(this.name, this.carrots);
 
   @override
@@ -22,17 +23,23 @@ class Person {
     save();
   }
 
+  void setToken(String? token){
+    this.token = token;
+  }
+
+
   Future<void> save() async {
     final prefs = await SharedPreferences.getInstance();
     final Map<String, dynamic> personMap = {
       'name': name,
       'carrots': carrots,
+      'token': token,
     };
     String personJson = json.encode(personMap);
     await prefs.setString('savedPerson', personJson);
   }
 
-  Future<Person?> getSavedPerson() async {
+  static Future<Person?> getSavedPerson() async {
     final prefs = await SharedPreferences.getInstance();
     String? personJson = prefs.getString('savedPerson');
     if (personJson != null) {

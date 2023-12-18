@@ -1,4 +1,5 @@
 
+import 'package:carrot/src/providers/push_notifications_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -95,6 +96,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   );
                   person.save();
+                  PushNotification push_notif = PushNotification(person);
+                  push_notif.initNotifications();
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -119,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _checkSavedPerson() async {
-    final personN = await person.getSavedPerson();
+    final personN = await Person.getSavedPerson();
     if (personN != null && mounted) {
       Navigator.pushReplacement(
         context,

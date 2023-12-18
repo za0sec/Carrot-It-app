@@ -166,93 +166,61 @@ class _CarrotsState extends State<Carrots> {
   }
 
   void _onRedeemButtonPressed(Prizes prize) {
+    _confettiController.play();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-            backgroundColor: Colors.transparent, // Hace el fondo transparente para ver la sombra
-            child: ClipPath(
-            clipper: TicketClipper(),
-        child: Container(
-        color: Colors.white, // Fondo blanco para el contenido del ticket
-        child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-                  ConfettiWidget(
-                    confettiController: _confettiController,
-                    blastDirection: pi / 2,
-                    maxBlastForce: 5,
-                    minBlastForce: 2,
-                    numberOfParticles: 50,
-                  ),
-                  Text(
-                    "¡Felicidades!",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Has canjeado ${prize.name}.",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      "Cerrar",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
-                ],
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Stack(
+            children: <Widget>[
+              ConfettiWidget(
+                confettiController: _confettiController,
+                blastDirectionality: BlastDirectionality.explosive,
+                particleDrag: 0.05,
+                emissionFrequency: 0.05,
+                numberOfParticles: 30,
+                gravity: 0.05,
+                shouldLoop: false,
+                colors: const [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
               ),
-            ),
+              Image.asset(
+                'lib/front/assets/images/ticket.png',
+                width: 400,
+              ),
+              Positioned(
+                left: 90,
+                top: 0,
+                bottom: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        '¡Ticket para ${prize.name}!',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        'Valido por un solo uso. Screenshotear y enviar.',
+                      ),
+                      SizedBox(height: 10)
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-            ),
         );
       },
     );
   }
-
-
-
-}
-
-class TicketClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    double ticketCutout = 20; // Define el tamaño de la muesca del ticket
-
-    // Comienza con el path superior izquierdo
-    path.moveTo(0, ticketCutout);
-    path.lineTo(0, size.height - ticketCutout);
-
-    // Muesca inferior izquierda
-    path.lineTo(ticketCutout, size.height - ticketCutout);
-    path.lineTo(ticketCutout, size.height);
-    path.lineTo(size.width - ticketCutout, size.height);
-
-    // Muesca inferior derecha
-    path.lineTo(size.width - ticketCutout, size.height - ticketCutout);
-    path.lineTo(size.width, size.height - ticketCutout);
-    path.lineTo(size.width, ticketCutout);
-
-    // Muesca superior derecha
-    path.lineTo(size.width - ticketCutout, ticketCutout);
-    path.lineTo(size.width - ticketCutout, 0);
-    path.lineTo(ticketCutout, 0);
-
-    // Muesca superior izquierda y cierre del path
-    path.lineTo(ticketCutout, ticketCutout);
-    path.lineTo(0, ticketCutout);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

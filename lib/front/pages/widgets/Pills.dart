@@ -25,7 +25,12 @@ class _PillsState extends State<Pills> {
         elevation: 5,
         child: InkWell(
             onTap: (){
-              widget.person.setCarrots(5);
+              widget.person.setCarrots(50);
+              Navigator.pushNamed(
+                context,
+                '/',
+                arguments: "Your data here",
+              );
             },
             child: Container(
               alignment: Alignment.center,
