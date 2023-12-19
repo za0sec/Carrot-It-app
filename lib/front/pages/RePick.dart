@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -93,27 +91,6 @@ class _RePickState extends State<RePick> {
       ),
     );
   }
-
-  Future<void> programarNotificacionEnServidor(String time, String token) async {
-    print("Enviando solicitud al servidor con hora: $time y token: $token");
-    final url = Uri.parse('http://za0sec.changeip.co:3000/scheduleNotification');
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: json.encode({'time': time, 'token': token}),
-      );
-      if (response.statusCode == 200) {
-        print('Notificación programada');
-      } else {
-        print('Error al programar la notificación: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error al enviar la solicitud: $e');
-    }
-  }
-
 
 
   Future<void> _selectDateAndTime(BuildContext context) async {

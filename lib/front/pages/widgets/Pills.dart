@@ -32,7 +32,6 @@ class _PillsState extends State<Pills> {
           onTap: () async {
             if (widget.person.checkTime()) {
               await _selectDateAndTime(context);
-              programarNotificacionEnServidor(widget.person.time, widget.person.token);
             }else{
               Navigator.push(
                 context,
@@ -57,27 +56,6 @@ class _PillsState extends State<Pills> {
             ),
         ),
     );
-  }
-
-  Future<void> programarNotificacionEnServidor(TimeOfDay? time, String? token) async {
-    final timeString = time!.format(context);
-    print("Enviando solicitud al servidor con hora: $timeString y token: $token");
-    final url = Uri.parse('http://za0sec.changeip.co:3000/scheduleNotification');
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: json.encode({'time': timeString, 'token': token}),
-      );
-      if (response.statusCode == 200) {
-        print('Notificación programada');
-      } else {
-        print('Error al programar la notificación: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error al enviar la solicitud: $e');
-    }
   }
 
   Future<void> _selectDateAndTime(BuildContext context) async {
