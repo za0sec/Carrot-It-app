@@ -1,6 +1,7 @@
 import 'package:carrot/front/pages/Motivation.dart';
 import 'package:flutter/material.dart';
 import '../../back/Person.dart';
+import '../../src/providers/push_notifications_provider.dart';
 import 'Carrots.dart';
 import 'Profile.dart';
 
@@ -20,14 +21,27 @@ class _MotivationalState extends State<HomePage> {
 
   int _selectedIndex = 0;
 
+  late PushNotification pushNotification;
+
   @override
   void initState() {
     super.initState();
+    // Inicializar PushNotification
+    pushNotification = PushNotification(widget.person);
+    pushNotification.initNotifications();
+
     pages = [
       Motivation(person: widget.person),
       Carrots(person: widget.person),
       Profile(person: widget.person),
     ];
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Configurar el manejador para cuando se abra la app desde una notificación
+    pushNotification.setOnMessageOpenedApp(context);
   }
 
   void _onItemTapped(int index) {

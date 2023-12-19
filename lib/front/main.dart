@@ -1,5 +1,7 @@
+import 'package:carrot/front/pages/Counter.dart';
 import 'package:carrot/front/pages/MyHomePage.dart';
 import 'package:carrot/front/pages/HomePage.dart';
+import 'package:carrot/front/pages/RePick.dart';
 import 'package:carrot/front/pages/SettingsScreen.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ import '../back/Person.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
   tz.initializeTimeZones();
   runApp(MyApp());
 }
@@ -37,6 +40,8 @@ class MyApp extends StatelessWidget {
                 person: Person('', 0),
               ),
           '/settings': (context) => SettingsScreen(),
+          '/counter': (context) => Counter(person: Person('', 0)),
+          '/rePick': (context) => RePick(person: Person('', 0)),
         },
       ),
     );

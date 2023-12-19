@@ -36,6 +36,7 @@ class _CarrotsState extends State<Carrots> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Carrots'),
+        automaticallyImplyLeading: false,
         actions: [
           Builder(
             builder: (context) => IconButton(

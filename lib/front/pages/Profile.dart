@@ -19,6 +19,7 @@ class _State extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Hi ${widget.person.name}!'),
+        automaticallyImplyLeading: false,
         actions: [
           Builder(
             builder: (context) => IconButton(

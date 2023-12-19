@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
 
-            children: [ SizedBox(height: 10), // Espaciado después del título
+            children: [ SizedBox(height: 10),
               Center(
               child: Container(
                 width: 200,

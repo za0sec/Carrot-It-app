@@ -19,7 +19,7 @@ dependencies:
   confetti: ^0.7.0
   firebase_messaging: ^14.7.9
   flutter_local_notifications:
-  timezone:
+  intl:
   http:
 
 dev_dependencies:

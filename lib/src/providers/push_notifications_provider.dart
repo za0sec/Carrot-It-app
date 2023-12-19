@@ -1,4 +1,8 @@
+import 'package:carrot/front/pages/Counter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import '../../back/Person.dart';
 
@@ -23,14 +27,27 @@ class PushNotification {
       print(token);
     }
 
+  }
+
+  void setOnMessageOpenedApp(BuildContext context) {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print("Mensaje en primer plano: ${message.notification?.body}");
-      // Aquí puedes hacer algo con el mensaje en primer plano
+      navigateToCounter(context, startTimer: true);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print("Mensaje recibido al abrir la app desde segundo plano: ${message.notification?.body}");
-      // Aquí puedes hacer algo con el mensaje al abrir la app desde segundo plano
+      navigateToCounter(context, startTimer: true);
     });
   }
+
+  void navigateToCounter(BuildContext context, {required bool startTimer}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Counter(person: person, startTimerOnLoad: startTimer),
+      ),
+    );
+  }
+
 }

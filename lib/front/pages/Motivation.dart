@@ -29,6 +29,7 @@ class _State extends State<Motivation> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Motivation'),
+        automaticallyImplyLeading: false,
         actions: [
           Builder(
             builder: (context) => IconButton(
