@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../back/Person.dart';
 import 'SettingsScreen.dart';
@@ -14,6 +17,26 @@ class Profile extends StatefulWidget {
 }
 
 class _State extends State<Profile> {
+  File? _image;
+
+  Future getImage(ImageSource source) async {
+    final pickedFile = await ImagePicker().pickImage(source: source);
+
+    if (pickedFile != null) {
+      final File image = File(pickedFile.path);
+
+      // Opcional: Guardar la imagen en el directorio de documentos de la aplicación
+      final directory = await getApplicationDocumentsDirectory();
+      const name = 'profile_pic.png';
+      final imageFile = await image.copy('${directory.path}/$name');
+
+      setState(() {
+        _image = imageFile;
+      });
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,40 +57,20 @@ class _State extends State<Profile> {
       endDrawer: SettingsScreen(),
       body:SingleChildScrollView(
         child: Column(
-          children: [
-            SizedBox(
-              height: 200,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Container(
-                      width: 160,
-                    ),
-                  );
-                },
-              ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _image == null
+                ? Text('No se ha seleccionado ninguna imagen.')
+                : Image.file(_image!),
+            ElevatedButton(
+              onPressed: () => getImage(ImageSource.gallery),
+              child: Text('Seleccionar de la galería'),
             ),
-
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Text('Pastillas Anticonceptivas'),
-                    leading: Icon(Icons.category),
-                    subtitle: Text('Detalles del minijuego ${index + 1}'),
-                    trailing: Text('${(index + 1) * 100} Carrots'),
-                  ),
-                );
-              },
+            ElevatedButton(
+              onPressed: () => getImage(ImageSource.camera),
+              child: Text('Tomar una foto'),
             ),
           ],
-
         ),
       ),
 

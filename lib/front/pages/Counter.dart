@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:carrot/front/pages/HomePage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../back/Person.dart';
 
 class Counter extends StatefulWidget {
   final Person person;
-  final bool startTimerOnLoad; // Parámetro para indicar si se debe iniciar el temporizador
+  final bool startTimerOnLoad;
 
   const Counter({Key? key, required this.person, this.startTimerOnLoad = false}) : super(key: key);
 
@@ -22,33 +21,43 @@ class _CounterState extends State<Counter> {
   TimeOfDay currentTime = TimeOfDay.now();
   int remainingTime = 5 * 60;
 
-    @override
-    void initState() {
-      super.initState();
-      callTime = (widget.person.time);
-      if (widget.startTimerOnLoad) {
-        int seconds1 = (currentTime.hour * 60 + currentTime.minute) * 60;
-        int seconds2 = (callTime!.hour * 60 + callTime!.minute) * 60;
-        int differenceInSeconds = (seconds1 - seconds2).abs();
-        differenceInSeconds *= -1;
-        remainingTime += differenceInSeconds;
-        startCountdown();
+  @override
+  void initState() {
+    super.initState();
+    callTime = widget.person.time;
+    currentTime = TimeOfDay.now();
+
+    if (widget.startTimerOnLoad) {
+      int secondsCurrentTime = currentTime.hour * 3600 + currentTime.minute * 60;
+      int secondsCallTime = callTime!.hour * 3600 + callTime!.minute * 60;
+
+      int differenceInSeconds = secondsCurrentTime - secondsCallTime;
+
+      if (differenceInSeconds < 0) {
+        differenceInSeconds += 24 * 3600;
       }
+
+      remainingTime = 5 * 60 - differenceInSeconds % (5 * 60);
+
+      startCountdown();
     }
+  }
+
 
   void startCountdown() {
     countdownTimer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
-      if (remainingTime > 0) {
-        setState(() {
+      setState(() {
+        if (remainingTime > 0) {
           remainingTime--;
-        });
-      } else {
-        timer.cancel();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage(person: widget.person)),
-        );
-      }
+        } else {
+          timer.cancel();
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomePage(person: widget.person)),
+          );
+        }
+      });
     });
   }
 
