@@ -23,6 +23,8 @@ dependencies:
   http:
   image_picker:
   path_provider:
+  modern_form_line_awesome_icons:
+  get:
 
 dev_dependencies:
   flutter_test:

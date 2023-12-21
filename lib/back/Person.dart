@@ -8,7 +8,8 @@ class Person {
   String name;
   int carrots;
   String? token;
-  Person(this.name, this.carrots);
+  String? profileImagePath;
+  Person(this.name, this.carrots, {this.profileImagePath});
   DateTime? dateTime;
   TimeOfDay? time;
 
@@ -49,8 +50,9 @@ class Person {
       'name': name,
       'carrots': carrots,
       'token': token,
-      'dateTime': dateTime?.toIso8601String(), // Convertir DateTime a String
-      'time': time != null ? "${time!.hour}:${time!.minute}" : null, // Convertir TimeOfDay a String
+      'dateTime': dateTime?.toIso8601String(),
+      'time': time != null ? "${time!.hour}:${time!.minute}" : null,
+      'profileImagePath': profileImagePath,
     };
     String personJson = json.encode(personMap);
     await prefs.setString('savedPerson', personJson);
@@ -67,7 +69,8 @@ class Person {
         List<String> timeParts = personMap['time'].split(':');
         time = TimeOfDay(hour: int.parse(timeParts[0]), minute: int.parse(timeParts[1]));
       }
-      return Person(personMap['name'], personMap['carrots'])
+      String? profileImagePath = personMap['profileImagePath'];
+      return Person(personMap['name'], personMap['carrots'], profileImagePath: profileImagePath)
         ..setToken(personMap['token'])
         ..dateTime = dateTime
         ..time = time;
