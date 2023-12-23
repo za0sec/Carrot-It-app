@@ -18,26 +18,22 @@ class Counter extends StatefulWidget {
 class _CounterState extends State<Counter> {
   late Timer countdownTimer;
   TimeOfDay? callTime;
-  TimeOfDay currentTime = TimeOfDay.now();
+  late DateTime currentTime;
   int remainingTime = 5 * 60;
 
   @override
   void initState() {
     super.initState();
     callTime = widget.person.time;
-    currentTime = TimeOfDay.now();
+    currentTime = DateTime.now();
 
     if (widget.startTimerOnLoad) {
-      int secondsCurrentTime = currentTime.hour * 3600 + currentTime.minute * 60;
+      int secondsCurrentTime = currentTime.hour * 3600 + currentTime.minute * 60 + currentTime.second;
       int secondsCallTime = callTime!.hour * 3600 + callTime!.minute * 60;
 
       int differenceInSeconds = secondsCurrentTime - secondsCallTime;
 
-      if (differenceInSeconds < 0) {
-        differenceInSeconds += 24 * 3600;
-      }
-
-      remainingTime = 5 * 60 - differenceInSeconds % (5 * 60);
+      remainingTime -= differenceInSeconds;
 
       startCountdown();
     }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../back/Person.dart';
-import '../main.dart';
+import '../../main.dart';
 import 'HomePage.dart';
 
 class MyHomePage extends StatefulWidget {
