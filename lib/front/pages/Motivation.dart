@@ -37,7 +37,7 @@ class _State extends State<Motivation> {
                 AssetImage('lib/front/assets/images/Carrot.png'),
                 color: Color(0xFFfb901c),
                 size: 60,
-              ),
+              ), 
               onPressed: () {
               },
             ),

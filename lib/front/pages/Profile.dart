@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+
 
 import '../../back/Person.dart';
 import 'ProfileMenuWidget.dart';
@@ -44,19 +46,53 @@ class _State extends State<Profile> {
     }
   }
 
+  void showImageSourceOptions() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Elije una opción'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.camera),
+                title: Text('Tomar una foto'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  getImage(ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.image),
+                title: Text('Seleccionar de la galería'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  getImage(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
 
-  Future getImage(ImageSource source) async {
+  Future<void> getImage(ImageSource source) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
 
     if (pickedFile != null) {
       final File image = File(pickedFile.path);
-
       final directory = await getApplicationDocumentsDirectory();
-      const name = 'profile_pic.png';
-      final imageFile = await image.copy('${directory.path}/$name');
+
+      // Usar un timestamp para generar un nombre de archivo único
+      final String fileName = 'profile_pic_${DateTime.now().millisecondsSinceEpoch}.png';
+      final String imagePath = path.join(directory.path, fileName);
+      final File imageFile = await image.copy(imagePath);
 
       setState(() {
+        // Actualizar la ruta de la imagen y forzar la reconstrucción del widget Image
         _image = imageFile;
         widget.person.profileImagePath = imageFile.path;
         widget.person.save();
@@ -98,7 +134,14 @@ class _State extends State<Profile> {
                     width: 120,
                     height: 120,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100), child: _image != null ? Image.file(_image!) : const Image(image: AssetImage('lib/front/assets/images/profile.png'))),
+                      borderRadius: BorderRadius.circular(100),
+                      child: _image != null
+                          ? Image.file(
+                        _image!,
+                        key: UniqueKey(), // Clave única para forzar la reconstrucción
+                      )
+                          : const Image(image: AssetImage('lib/front/assets/images/profile.png')),
+                    ),
                   ),
                   Positioned(
                     bottom: 0,
@@ -113,7 +156,7 @@ class _State extends State<Profile> {
                           color: tPrimaryColor,
                           size: 20,
                         ),
-                        onPressed: () => getImage(ImageSource.gallery),
+                        onPressed: () => showImageSourceOptions(),
                       ),
                     ),
                   ),

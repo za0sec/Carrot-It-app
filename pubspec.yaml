@@ -25,6 +25,7 @@ dependencies:
   path_provider:
   modern_form_line_awesome_icons:
   get:
+  path:
 
 dev_dependencies:
   flutter_test:
