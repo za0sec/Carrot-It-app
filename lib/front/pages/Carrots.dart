@@ -51,7 +51,6 @@ class _CarrotsState extends State<Carrots> {
           ),
         ],
       ),
-      endDrawer: SettingsScreen(),
       body:SingleChildScrollView(
         child: Column(
           children: [
@@ -134,8 +133,11 @@ class _CarrotsState extends State<Carrots> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              setState(() {
+                              setState(()  {
                                 person.redeemPrice(prize.price);
+                              if (widget.person.alertEmail != null) {
+                                widget.person.sendEmail("Canje de Premio", "${widget.person.name} ha canjeado ${prize.name}");
+                              }
                               });
                               _onRedeemButtonPressed(prize);
                             },

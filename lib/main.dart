@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           '/second': (context) => HomePage(
                 person: Person('', 0),
               ),
-          '/settings': (context) => SettingsScreen(),
+          '/settings': (context) => SettingsScreen(person: Person('', 0)),
           '/counter': (context) => Counter(person: Person('', 0)),
           '/rePick': (context) => RePick(person: Person('', 0)),
         },

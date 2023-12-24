@@ -44,7 +44,7 @@ class _State extends State<Motivation> {
           ),
         ],
       ),
-      endDrawer: SettingsScreen(),
+      endDrawer: SettingsScreen(person: widget.person),
       body: SingleChildScrollView(
         child: Column(
           children: [

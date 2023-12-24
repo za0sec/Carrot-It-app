@@ -10,7 +10,6 @@ import 'ProfileMenuWidget.dart';
 import 'SettingsScreen.dart';
 import 'UpdateProfileScreen.dart';
 
-// Definiciones de las constantes (ajusta según sea necesario)
 const String tProfileHeading = "Tu nombre de usuario";
 const String tProfileSubHeading = "Tu correo electrónico";
 const Color tPrimaryColor = Color(0xFFfb901c);
@@ -131,7 +130,7 @@ class _State extends State<Profile> {
                           ? Image.file(
                               _image!,
                               key:
-                                  UniqueKey(), // Clave única para forzar la reconstrucción
+                                  UniqueKey(),
                             )
                           : const Image(
                               image: AssetImage(
@@ -196,7 +195,7 @@ class _State extends State<Profile> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SettingsScreen(),
+                        builder: (context) => SettingsScreen(person: widget.person),
                       ),
                     );
                   }),
@@ -232,7 +231,6 @@ class _State extends State<Profile> {
                             child: Text('Yes'),
                             onPressed: () {
                               Navigator.of(context).pop(); // Cierra el diálogo
-                              // Aquí puedes agregar la lógica para navegar a otra página o realizar el logout
                               // Por ejemplo: Navigator.of(context).pushReplacementNamed('/tuRuta');
                             },
                           ),

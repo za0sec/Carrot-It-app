@@ -70,7 +70,7 @@ class _RePickState extends State<RePick> {
             ElevatedButton(
               onPressed: () async{
                 await _selectDateAndTime(context);
-                widget.person.setCarrots(50);
+                widget.person.setCarrots(50, DateTime.now());
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

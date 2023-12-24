@@ -1,13 +1,7 @@
-import 'dart:convert';
-
-import 'package:carrot/front/pages/MyHomePage.dart';
 import 'package:carrot/front/pages/RePick.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
 import '../../../back/Person.dart';
 
 class Pills extends StatefulWidget {
@@ -32,7 +26,7 @@ class _PillsState extends State<Pills> {
           onTap: () async {
             if (widget.person.checkTime()) {
               await _selectDateAndTime(context);
-            }else{
+            }else {
               Navigator.push(
                 context,
                 MaterialPageRoute(
