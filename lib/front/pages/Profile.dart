@@ -5,7 +5,6 @@ import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.da
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
-
 import '../../back/Person.dart';
 import 'ProfileMenuWidget.dart';
 import 'SettingsScreen.dart';
@@ -19,7 +18,6 @@ const Color tDarkColor = Colors.black12;
 const String tEditProfile = "Editar Perfil";
 
 class Profile extends StatefulWidget {
-
   final Person person;
 
   const Profile({super.key, required this.person});
@@ -58,17 +56,17 @@ class _State extends State<Profile> {
               ListTile(
                 leading: Icon(Icons.camera),
                 title: Text('Tomar una foto'),
-                onTap: () {
+                onTap: () async {
+                  await getImage(ImageSource.camera);
                   Navigator.of(context).pop();
-                  getImage(ImageSource.camera);
                 },
               ),
               ListTile(
                 leading: Icon(Icons.image),
                 title: Text('Seleccionar de la galería'),
-                onTap: () {
+                onTap: () async {
+                  await getImage(ImageSource.gallery);
                   Navigator.of(context).pop();
-                  getImage(ImageSource.gallery);
                 },
               ),
             ],
@@ -78,18 +76,14 @@ class _State extends State<Profile> {
     );
   }
 
-
   Future<void> getImage(ImageSource source) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
 
     if (pickedFile != null) {
       final File image = File(pickedFile.path);
       final directory = await getApplicationDocumentsDirectory();
-
-      // Usar un timestamp para generar un nombre de archivo único
-      final String fileName = 'profile_pic_${DateTime.now().millisecondsSinceEpoch}.png';
-      final String imagePath = path.join(directory.path, fileName);
-      final File imageFile = await image.copy(imagePath);
+      const name = 'profile_pic.png';
+      final imageFile = await image.copy('${directory.path}/$name');
 
       setState(() {
         // Actualizar la ruta de la imagen y forzar la reconstrucción del widget Image
@@ -99,7 +93,6 @@ class _State extends State<Profile> {
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -116,8 +109,7 @@ class _State extends State<Profile> {
                 color: Color(0xFFfb901c),
                 size: 60,
               ),
-              onPressed: () {
-              },
+              onPressed: () {},
             ),
           ),
         ],
@@ -137,10 +129,13 @@ class _State extends State<Profile> {
                       borderRadius: BorderRadius.circular(100),
                       child: _image != null
                           ? Image.file(
-                        _image!,
-                        key: UniqueKey(), // Clave única para forzar la reconstrucción
-                      )
-                          : const Image(image: AssetImage('lib/front/assets/images/profile.png')),
+                              _image!,
+                              key:
+                                  UniqueKey(), // Clave única para forzar la reconstrucción
+                            )
+                          : const Image(
+                              image: AssetImage(
+                                  'lib/front/assets/images/profile.png')),
                     ),
                   ),
                   Positioned(
@@ -149,7 +144,9 @@ class _State extends State<Profile> {
                     child: Container(
                       width: 35,
                       height: 35,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Color(0xFFfff0e8)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Color(0xFFfff0e8)),
                       child: IconButton(
                         icon: const Icon(
                           LineAwesomeIcons.pencil,
@@ -163,7 +160,8 @@ class _State extends State<Profile> {
                 ],
               ),
               const SizedBox(height: 10),
-              Text(widget.person.name, style: Theme.of(context).textTheme.headlineMedium),
+              Text(widget.person.name,
+                  style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 10),
 
               // -- BUTTON
@@ -179,8 +177,11 @@ class _State extends State<Profile> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFfff0e8), side: BorderSide.none, shape: const StadiumBorder()),
-                  child: Text(tEditProfile, style: TextStyle(color: tPrimaryColor)),
+                      backgroundColor: Color(0xFFfff0e8),
+                      side: BorderSide.none,
+                      shape: const StadiumBorder()),
+                  child: Text(tEditProfile,
+                      style: TextStyle(color: tPrimaryColor)),
                 ),
               ),
               const SizedBox(height: 30),
@@ -188,17 +189,23 @@ class _State extends State<Profile> {
               const SizedBox(height: 10),
 
               // -- MENU
-              ProfileMenuWidget(title: "Settings", icon: LineAwesomeIcons.cog, onPress: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SettingsScreen(),
-                  ),
-                );
-              }),
+              ProfileMenuWidget(
+                  title: "Settings",
+                  icon: LineAwesomeIcons.cog,
+                  onPress: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SettingsScreen(),
+                      ),
+                    );
+                  }),
               const Divider(),
               const SizedBox(height: 10),
-              ProfileMenuWidget(title: "Information", icon: LineAwesomeIcons.info, onPress: () {}),
+              ProfileMenuWidget(
+                  title: "Information",
+                  icon: LineAwesomeIcons.info,
+                  onPress: () {}),
               ProfileMenuWidget(
                 title: "Logout",
                 icon: LineAwesomeIcons.sign_out,
@@ -210,7 +217,8 @@ class _State extends State<Profile> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: Text('Logout'),
-                        content: Text('Are you sure you want to logout?\n\nIf you logout you will not receive notifications.'),
+                        content: Text(
+                            'Are you sure you want to logout?\n\nIf you logout you will not receive notifications.'),
                         actions: <Widget>[
                           // Botón para cancelar
                           TextButton(
