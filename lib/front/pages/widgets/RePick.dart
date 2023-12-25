@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../back/Person.dart';
+import '../../../back/Person.dart';
 
 class RePick extends StatefulWidget {
   final Person person;
@@ -26,8 +26,7 @@ class _RePickState extends State<RePick> {
                 color: Color(0xFFfb901c),
                 size: 60,
               ),
-              onPressed: () {
-              },
+              onPressed: () {},
             ),
           ),
         ],
@@ -68,7 +67,7 @@ class _RePickState extends State<RePick> {
               ],
             ),
             ElevatedButton(
-              onPressed: () async{
+              onPressed: () async {
                 await _selectDateAndTime(context);
                 widget.person.setCarrots(50, DateTime.now());
               },
@@ -80,7 +79,8 @@ class _RePickState extends State<RePick> {
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
                 textStyle: TextStyle(fontSize: 20),
               ),
-              child: Text('Cambiar Fecha y Hora',
+              child: Text(
+                'Cambiar Fecha y Hora',
                 style: TextStyle(
                   color: Color(0xFFfb901c),
                 ),
@@ -91,7 +91,6 @@ class _RePickState extends State<RePick> {
       ),
     );
   }
-
 
   Future<void> _selectDateAndTime(BuildContext context) async {
     final currentDate = DateTime.now();
@@ -116,5 +115,4 @@ class _RePickState extends State<RePick> {
       }
     }
   }
-
 }

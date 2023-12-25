@@ -1,11 +1,12 @@
+import 'dart:collection';
 import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../back/Person.dart';
-import '../../back/prizes/prizes.dart';
-import 'SettingsScreen.dart';
+import '../../../back/Person.dart';
+import '../../../back/prizes/prizes.dart';
+import 'Profile/SettingsScreen.dart';
 
 class Carrots extends StatefulWidget {
   final Person person;
@@ -17,7 +18,8 @@ class Carrots extends StatefulWidget {
 }
 
 class _CarrotsState extends State<Carrots> {
-  final ConfettiController _confettiController = ConfettiController(duration: Duration(seconds: 10));
+  final ConfettiController _confettiController =
+      ConfettiController(duration: Duration(seconds: 10));
 
   @override
   void initState() {
@@ -45,13 +47,12 @@ class _CarrotsState extends State<Carrots> {
                 color: Color(0xFFfb901c),
                 size: 60,
               ),
-              onPressed: () {
-              },
+              onPressed: () {},
             ),
           ),
         ],
       ),
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
@@ -73,7 +74,6 @@ class _CarrotsState extends State<Carrots> {
                 ],
               ),
             ),
-
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -84,10 +84,8 @@ class _CarrotsState extends State<Carrots> {
               },
             ),
           ],
-
         ),
       ),
-
     );
   }
 
@@ -115,45 +113,48 @@ class _CarrotsState extends State<Carrots> {
                 children: [
                   if (prize.canRedeem(person.carrots))
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: Row(
-                          children: [
-                            Text(
+                        Container(
+                          width: 150, // Ancho fijo para el widget del precio
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
                                 '${prize.price}',
                                 style: TextStyle(
-                                    fontSize: 30,
-                                    color: Color(0xFFfb901c)
-                                )
-                            ),
-                            SizedBox(width: 10),
-                            FaIcon(FontAwesomeIcons.carrot, size: 25),
-                          ],
-                        )),
-                        Expanded(flex: 2, child: Container()),
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(()  {
-                                person.redeemPrice(prize.price);
+                                    fontSize: 30, color: Color(0xFFfb901c)),
+                              ),
+                              SizedBox(width: 10),
+                              FaIcon(FontAwesomeIcons.carrot, size: 25),
+                            ],
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              person.redeemPrice(prize.price);
                               if (widget.person.alertEmail != null) {
-                                widget.person.sendEmail("Canje de Premio", "${widget.person.name} ha canjeado ${prize.name}");
+                                widget.person.sendEmail("Canje de Premio",
+                                    "${widget.person.name} ha canjeado ${prize.name}");
                               }
-                              });
-                              _onRedeemButtonPressed(prize);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              backgroundColor: Colors.green,
-                              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                              textStyle: TextStyle(fontSize: 15),
+                            });
+                            widget.person.redeems.add(prize);
+                            _onRedeemButtonPressed(prize);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
                             ),
-                            child: Text(
-                              'Canjear',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                            backgroundColor: Colors.green,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
+                            textStyle: TextStyle(fontSize: 15),
+                          ),
+                          child: Text(
+                            'Canjear',
+                            style: TextStyle(
+                              color: Colors.white,
                             ),
                           ),
                         )
@@ -187,7 +188,13 @@ class _CarrotsState extends State<Carrots> {
                 numberOfParticles: 30,
                 gravity: 0.05,
                 shouldLoop: false,
-                colors: const [Colors.green, Colors.blue, Colors.pink, Colors.orange, Colors.purple],
+                colors: const [
+                  Colors.green,
+                  Colors.blue,
+                  Colors.pink,
+                  Colors.orange,
+                  Colors.purple
+                ],
               ),
               Image.asset(
                 'lib/front/assets/images/ticket.png',

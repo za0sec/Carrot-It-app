@@ -1,11 +1,13 @@
 import 'dart:io';
+import 'package:carrot/front/pages/homepage/Profile/Info.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
-import '../../back/Person.dart';
+import '../../../../back/Person.dart';
 import 'ProfileMenuWidget.dart';
 import 'SettingsScreen.dart';
 import 'UpdateProfileScreen.dart';
@@ -95,7 +97,6 @@ class _State extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
@@ -125,17 +126,12 @@ class _State extends State<Profile> {
                     width: 120,
                     height: 120,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: _image != null
-                          ? Image.file(
-                              _image!,
-                              key:
-                                  UniqueKey(),
-                            )
-                          : const Image(
-                              image: AssetImage(
-                                  'lib/front/assets/images/profile.png')),
-                    ),
+                        borderRadius: BorderRadius.circular(100),
+                        child: _image != null
+                            ? Image.file(_image!)
+                            : const Image(
+                                image: AssetImage(
+                                    'lib/front/assets/images/profile.png'))),
                   ),
                   Positioned(
                     bottom: 0,
@@ -195,16 +191,28 @@ class _State extends State<Profile> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SettingsScreen(person: widget.person),
+                        builder: (context) =>
+                            SettingsScreen(person: widget.person),
                       ),
                     );
                   }),
               const Divider(),
               const SizedBox(height: 10),
               ProfileMenuWidget(
-                  title: "Information",
-                  icon: LineAwesomeIcons.info,
-                  onPress: () {}),
+                title: "Information",
+                icon: LineAwesomeIcons.info,
+                onLongPress: () {
+                  _showSecretKeyDialog(context);
+                },
+                onPress: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Information(),
+                    ),
+                  );
+                },
+              ),
               ProfileMenuWidget(
                 title: "Logout",
                 icon: LineAwesomeIcons.sign_out,
@@ -243,6 +251,69 @@ class _State extends State<Profile> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showSecretKeyDialog(BuildContext context) {
+    final TextEditingController _secretKeyController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter Secret Key'),
+          content: TextField(
+            controller: _secretKeyController,
+            decoration: InputDecoration(hintText: 'Secret Key'),
+            obscureText: false, // Para ocultar el texto ingresado
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Submit'),
+              onPressed: () {
+                if (_secretKeyController.text == 'destroyallcarrots') {
+                  Navigator.of(context).pop(); // Cierra el diálogo actual
+                  _showCarrotAddMenu(
+                      context); // Muestra el menú para agregar zanahorias
+                } else {
+                  Navigator.of(context)
+                      .pop(); // Cierra el diálogo si la clave es incorrecta
+                  _showErrorSnackBar(context, "No valid key");
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showCarrotAddMenu(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Add Carrots'),
+          content: Text('You can add carrots here.'),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('Add Carrots'),
+              onPressed: () {
+                widget.person.setCarrots(1000, DateTime.now());
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showErrorSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(message),
+        duration: Duration(seconds: 3),
       ),
     );
   }

@@ -1,9 +1,9 @@
-import 'package:carrot/front/pages/Motivation.dart';
+import 'package:carrot/front/pages/homepage/Motivation.dart';
 import 'package:flutter/material.dart';
-import '../../back/Person.dart';
-import '../../src/providers/push_notifications_provider.dart';
+import '../../../back/Person.dart';
+import '../../../src/providers/push_notifications_provider.dart';
 import 'Carrots.dart';
-import 'Profile.dart';
+import 'Profile/Profile.dart';
 
 class HomePage extends StatefulWidget {
   final Person person;
@@ -67,13 +67,13 @@ class _MotivationalState extends State<HomePage> {
             label: 'Motivation',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('lib/front/assets/icons/zanahoria_color.png')),
+            icon: ImageIcon(
+                AssetImage('lib/front/assets/icons/zanahoria_color.png')),
             label: 'Carrots',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-
           ),
         ],
         currentIndex: _selectedIndex,

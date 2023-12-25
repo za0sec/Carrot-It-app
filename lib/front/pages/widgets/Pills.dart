@@ -1,4 +1,4 @@
-import 'package:carrot/front/pages/RePick.dart';
+import 'package:carrot/front/pages/widgets/RePick.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,7 +6,7 @@ import '../../../back/Person.dart';
 
 class Pills extends StatefulWidget {
   final Person person;
-  
+
   const Pills({super.key, required this.person});
 
   @override
@@ -17,38 +17,35 @@ class _PillsState extends State<Pills> {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-        ),
-        elevation: 5,
-        child: InkWell(
-          onTap: () async {
-            if (widget.person.checkTime()) {
-              await _selectDateAndTime(context);
-            }else {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RePick(person: widget.person),
-                ),
-              );
-            }
-          },
-            child: Container(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.pills,
-                    size: 37.0,
-                    color: Color(0xFFfb901c),
-                  ),
-                ]
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 5,
+      child: InkWell(
+        onTap: () async {
+          if (widget.person.checkTime()) {
+            await _selectDateAndTime(context);
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RePick(person: widget.person),
               ),
+            );
+          }
+        },
+        child: Container(
+          alignment: Alignment.center,
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            FaIcon(
+              FontAwesomeIcons.pills,
+              size: 37.0,
+              color: Color(0xFFfb901c),
             ),
+          ]),
         ),
+      ),
     );
   }
 
@@ -73,7 +70,4 @@ class _PillsState extends State<Pills> {
       }
     }
   }
-
-
-
 }

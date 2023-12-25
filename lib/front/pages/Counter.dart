@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:carrot/front/pages/HomePage.dart';
+import 'package:carrot/front/pages/homepage/HomePage.dart';
 import 'package:flutter/material.dart';
 
 import '../../back/Person.dart';
@@ -9,7 +9,8 @@ class Counter extends StatefulWidget {
   final Person person;
   final bool startTimerOnLoad;
 
-  const Counter({Key? key, required this.person, this.startTimerOnLoad = false}) : super(key: key);
+  const Counter({Key? key, required this.person, this.startTimerOnLoad = false})
+      : super(key: key);
 
   @override
   _CounterState createState() => _CounterState();
@@ -28,7 +29,9 @@ class _CounterState extends State<Counter> {
     currentTime = DateTime.now();
 
     if (widget.startTimerOnLoad) {
-      int secondsCurrentTime = currentTime.hour * 3600 + currentTime.minute * 60 + currentTime.second;
+      int secondsCurrentTime = currentTime.hour * 3600 +
+          currentTime.minute * 60 +
+          currentTime.second;
       int secondsCallTime = callTime!.hour * 3600 + callTime!.minute * 60;
 
       int differenceInSeconds = secondsCurrentTime - secondsCallTime;
@@ -38,7 +41,6 @@ class _CounterState extends State<Counter> {
       startCountdown();
     }
   }
-
 
   void startCountdown() {
     countdownTimer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
@@ -82,8 +84,7 @@ class _CounterState extends State<Counter> {
                 color: Color(0xFFfb901c),
                 size: 60,
               ),
-              onPressed: () {
-              },
+              onPressed: () {},
             ),
           ),
         ],
@@ -127,7 +128,8 @@ class _CounterState extends State<Counter> {
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 40),
                 textStyle: TextStyle(fontSize: 20),
               ),
-              child: Text('Ya la tome!',
+              child: Text(
+                'Ya la tome!',
                 style: TextStyle(
                   color: Color(0xFFfb901c),
                 ),
@@ -138,5 +140,4 @@ class _CounterState extends State<Counter> {
       ),
     );
   }
-  
 }

@@ -1,8 +1,9 @@
 import 'package:carrot/front/pages/Counter.dart';
-import 'package:carrot/front/pages/MyHomePage.dart';
-import 'package:carrot/front/pages/HomePage.dart';
-import 'package:carrot/front/pages/RePick.dart';
-import 'package:carrot/front/pages/SettingsScreen.dart';
+import 'package:carrot/front/pages/homepage/Profile/Info.dart';
+import 'package:carrot/front/pages/WelcomePage.dart';
+import 'package:carrot/front/pages/homepage/HomePage.dart';
+import 'package:carrot/front/pages/widgets/RePick.dart';
+import 'package:carrot/front/pages/homepage/Profile/SettingsScreen.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFfb901c)),
         ),
-        home: MyHomePage(),
+        home: WelcomePage(),
         routes: {
           '/second': (context) => HomePage(
                 person: Person('', 0),
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           '/settings': (context) => SettingsScreen(person: Person('', 0)),
           '/counter': (context) => Counter(person: Person('', 0)),
           '/rePick': (context) => RePick(person: Person('', 0)),
+          '/info': (context) => Information(),
         },
       ),
     );
@@ -49,4 +51,3 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
 }
-

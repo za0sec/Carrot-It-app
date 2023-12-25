@@ -1,18 +1,17 @@
-
 import 'package:carrot/src/providers/push_notifications_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../back/Person.dart';
 import '../../main.dart';
-import 'HomePage.dart';
+import 'homepage/HomePage.dart';
 
-class MyHomePage extends StatefulWidget {
+class WelcomePage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<WelcomePage> createState() => _WelcomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _WelcomePageState extends State<WelcomePage> {
   final TextEditingController _nameController = TextEditingController();
 
   late Person person;
@@ -48,20 +47,20 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-
-            children: [ SizedBox(height: 10),
+            children: [
+              SizedBox(height: 10),
               Center(
-              child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('lib/front/assets/images/Carrot.png'),
-                    fit: BoxFit.contain,
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('lib/front/assets/images/Carrot.png'),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
-            ),
               Text(
                 'Carrot It!',
                 textAlign: TextAlign.center,
@@ -107,7 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: EdgeInsets.symmetric(vertical: 15),
                   textStyle: TextStyle(fontSize: 20),
                 ),
-                child: Text('Next',
+                child: Text(
+                  'Next',
                   style: TextStyle(
                     color: Color(0xFFfb901c),
                   ),
@@ -117,7 +117,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-
     );
   }
 
@@ -132,5 +131,4 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
   }
-
 }

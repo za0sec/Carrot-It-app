@@ -2,8 +2,8 @@ import 'package:carrot/front/pages/widgets/Pills.dart';
 import 'package:carrot/front/pages/widgets/Soon.dart';
 import 'package:flutter/material.dart';
 
-import '../../back/Person.dart';
-import 'SettingsScreen.dart';
+import '../../../back/Person.dart';
+import 'Profile/SettingsScreen.dart';
 
 class Motivation extends StatefulWidget {
   final Person person;
@@ -15,13 +15,20 @@ class Motivation extends StatefulWidget {
 }
 
 class _State extends State<Motivation> {
-
   late List boxContent;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    boxContent = [Pills(person: widget.person), Soon(), Soon(), Soon(), Soon(), Soon(), Soon()];
+    boxContent = [
+      Pills(person: widget.person),
+      Soon(),
+      Soon(),
+      Soon(),
+      Soon(),
+      Soon(),
+      Soon()
+    ];
   }
 
   @override
@@ -37,9 +44,8 @@ class _State extends State<Motivation> {
                 AssetImage('lib/front/assets/images/Carrot.png'),
                 color: Color(0xFFfb901c),
                 size: 60,
-              ), 
-              onPressed: () {
-              },
+              ),
+              onPressed: () {},
             ),
           ),
         ],
@@ -50,17 +56,18 @@ class _State extends State<Motivation> {
           children: [
             SizedBox(height: 20),
             Text(
-            'Games',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontSize: 38,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFFfb901c),
+              'Games',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 38,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFFfb901c),
               ),
             ),
-          SizedBox(height: 10),
+            SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.all(10.0), // Agrega espaciado alrededor de la cuadrícula
+              padding: const EdgeInsets.all(
+                  10.0), // Agrega espaciado alrededor de la cuadrícula
               child: GridView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -79,8 +86,6 @@ class _State extends State<Motivation> {
           ],
         ),
       ),
-
-
     );
   }
 }
