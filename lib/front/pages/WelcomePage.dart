@@ -1,19 +1,15 @@
-import 'package:carrot/src/providers/push_notifications_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../../back/Person.dart';
-import '../../main.dart';
 import 'homepage/HomePage.dart';
+import 'package:carrot/src/providers/push_notifications_provider.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
-  State<WelcomePage> createState() => _WelcomePageState();
+  _WelcomePageState createState() => _WelcomePageState();
 }
 
 class _WelcomePageState extends State<WelcomePage> {
   final TextEditingController _nameController = TextEditingController();
-
   late Person person;
 
   @override
@@ -24,95 +20,65 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xFFfaf3e1), Color(0xFFfbe1b4)],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        body: Container(
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.orange.shade200, // Naranja claro
+                Colors.orange.shade400, // Un tono de naranja más oscuro
+              ],
+            ),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 50.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 10),
-              Center(
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('lib/front/assets/images/Carrot.png'),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Spacer(flex: 2),
+              Image.asset(
+                'lib/front/assets/images/Carrot.png', // Tu logo
+                height: 120,
               ),
+              Spacer(),
               Text(
                 'Carrot It!',
-                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 38,
+                  fontSize: 52,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFFfb901c),
+                  color: Colors.white,
                 ),
               ),
-              Text(
-                'Enter your name:',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              SizedBox(height: 20),
               TextField(
                 controller: _nameController,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey[600],
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
+                  ),
+                  hintText: 'Ingresa tu nombre',
                 ),
               ),
+              SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  person = Person(_nameController.text, 0);
-                  print('New person instance: $person');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(person: person),
-                    ),
-                  );
-                  person.save();
-                  PushNotification push_notif = PushNotification(person);
-                  push_notif.initNotifications();
-                },
+                onPressed: _handleGetStarted,
+                child: Text('Comenzar'),
                 style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
                   backgroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  textStyle: TextStyle(fontSize: 20),
-                ),
-                child: Text(
-                  'Next',
-                  style: TextStyle(
-                    color: Color(0xFFfb901c),
-                  ),
+                  foregroundColor: Colors.black,
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 ),
               ),
+              Spacer(flex: 3),
             ],
           ),
         ),
@@ -120,14 +86,23 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
+  void _handleGetStarted() {
+    person = Person(_nameController.text, 0);
+    person.save();
+    PushNotification pushNotif = PushNotification(person);
+    pushNotif.initNotifications();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage(person: person)),
+    );
+  }
+
   Future<void> _checkSavedPerson() async {
-    final personN = await Person.getSavedPerson();
-    if (personN != null && mounted) {
+    final savedPerson = await Person.getSavedPerson();
+    if (savedPerson != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(person: personN),
-        ),
+        MaterialPageRoute(builder: (context) => HomePage(person: savedPerson)),
       );
     }
   }

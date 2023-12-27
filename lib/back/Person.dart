@@ -17,13 +17,8 @@ class Person {
   DateTime? lastDate;
   int multiplier = 0;
   String? alertEmail;
-  List<Prizes> redeems = [];
-  Person(this.name, this.carrots,
-      {this.profileImagePath, List<Prizes>? redeems}) {
-    if (redeems != null) {
-      this.redeems = redeems;
-    }
-  }
+  Map<DateTime, List<Prizes>> redeems = {};
+  Person(this.name, this.carrots, {this.profileImagePath});
 
   @override
   String toString() {
@@ -103,6 +98,12 @@ class Person {
 
   Future<void> save() async {
     final prefs = await SharedPreferences.getInstance();
+    Map<String, dynamic> redeemsMap = {};
+    redeems.forEach((key, value) {
+      String dateKey = DateFormat('yyyy-MM-dd').format(key);
+      List<String> prizeNames = value.map((prize) => prize.name).toList();
+      redeemsMap[dateKey] = prizeNames;
+    });
     final Map<String, dynamic> personMap = {
       'name': name,
       'carrots': carrots,
@@ -113,7 +114,7 @@ class Person {
       'lastDate': lastDate?.toIso8601String(),
       'multiplier': multiplier,
       'alertEmail': alertEmail,
-      'redeems': redeems?.map((prize) => prize.name).toList(),
+      'redeems': json.encode(redeemsMap),
     };
     String personJson = json.encode(personMap);
     await prefs.setString('savedPerson', personJson);
@@ -124,16 +125,23 @@ class Person {
     String? personJson = prefs.getString('savedPerson');
     if (personJson != null) {
       Map<String, dynamic> personMap = json.decode(personJson);
-      personMap['redeems'] = personMap['redeems']
-          ?.map((prizeName) =>
-              Prizes.values.firstWhere((prize) => prize.name == prizeName))
-          .toList();
-      return Person.fromMap(personMap);
+      Map<String, dynamic> redeemsJson =
+          json.decode(personMap['redeems'] as String);
+      Map<DateTime, List<Prizes>> redeems = {};
+      redeemsJson.forEach((key, value) {
+        DateTime date = DateFormat('yyyy-MM-dd').parse(key);
+        List<Prizes> prizes = (value as List).map((name) {
+          return Prizes.values.firstWhere((prize) => prize.name == name,
+              orElse: () => Prizes.chocolate);
+        }).toList();
+        redeems[date] = prizes;
+      });
+      return Person.fromMap(personMap, redeems);
     }
     return null;
   }
 
-  Person.fromMap(Map<String, dynamic> personMap)
+  Person.fromMap(Map<String, dynamic> personMap, this.redeems)
       : name = personMap['name'],
         carrots = personMap['carrots'],
         token = personMap['token'],
@@ -141,17 +149,6 @@ class Person {
         dateTime = personMap['dateTime'] != null
             ? DateTime.parse(personMap['dateTime'])
             : null,
-        redeems = personMap['redeems'] != null
-            ? List<Prizes>.from(
-                (personMap['redeems'] as List).map(
-                  (prizeName) => Prizes.values.firstWhere(
-                    (prize) => prize.name == prizeName,
-                    orElse: () => Prizes
-                        .defaultPrize, // Debes definir un premio por defecto.
-                  ),
-                ),
-              )
-            : <Prizes>[],
         multiplier = personMap['multiplier'] ?? 0,
         alertEmail = personMap['alertEmail'] {
     if (personMap['time'] != null) {

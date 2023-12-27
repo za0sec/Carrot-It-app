@@ -24,7 +24,16 @@ class _SettingsScreen extends State<SettingsScreen> {
         children: [
           Container(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            color: Color(0xFFf7c58c),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.orange.shade200, // Naranja claro
+                  Colors.orange.shade400, // Un tono de naranja más oscuro
+                ],
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -49,55 +58,41 @@ class _SettingsScreen extends State<SettingsScreen> {
           ),
           const Divider(),
           ProfileMenuWidget(
-              title: "Add redeem email alert",
-              icon: LineAwesomeIcons.envelope,
-              onPress: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Add redeem email alert'),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            TextField(
-                              controller: _nameController,
-                              decoration: InputDecoration(
-                                hintText: 'Email',
-                              ),
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                widget.person.alertEmail = _nameController.text;
-                                widget.person.save();
-                                print(
-                                    'Saved new alertEmail: ${widget.person.alertEmail}');
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                backgroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(vertical: 15),
-                                textStyle: TextStyle(fontSize: 20),
-                              ),
-                              child: Text(
-                                'Next',
-                                style: TextStyle(
-                                  color: Color(0xFFfb901c),
-                                ),
-                              ),
-                            ),
-                          ],
+            title: "Add redeem email alert",
+            icon: LineAwesomeIcons.envelope,
+            onPress: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return GestureDetector(
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    },
+                    child: AlertDialog(
+                      title: Text('Enter Redeem Email'),
+                      content: TextField(
+                        controller: _nameController,
+                        decoration: InputDecoration(hintText: 'Email'),
+                        obscureText: false,
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: Text('Submit'),
+                          onPressed: () {
+                            widget.person.alertEmail = _nameController.text;
+                            widget.person.save();
+                            print(
+                                'Saved new alertEmail: ${widget.person.alertEmail}');
+                            Navigator.pop(context);
+                          },
                         ),
-                      );
-                    });
-              }),
+                      ],
+                    ),
+                  );
+                },
+              );
+            },
+          ),
           const Divider(),
           ProfileMenuWidget(
               title: "Past Redeems",

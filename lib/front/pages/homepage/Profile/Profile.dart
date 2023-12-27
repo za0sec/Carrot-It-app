@@ -260,29 +260,34 @@ class _State extends State<Profile> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Enter Secret Key'),
-          content: TextField(
-            controller: _secretKeyController,
-            decoration: InputDecoration(hintText: 'Secret Key'),
-            obscureText: false, // Para ocultar el texto ingresado
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Submit'),
-              onPressed: () {
-                if (_secretKeyController.text == 'destroyallcarrots') {
-                  Navigator.of(context).pop(); // Cierra el diálogo actual
-                  _showCarrotAddMenu(
-                      context); // Muestra el menú para agregar zanahorias
-                } else {
-                  Navigator.of(context)
-                      .pop(); // Cierra el diálogo si la clave es incorrecta
-                  _showErrorSnackBar(context, "No valid key");
-                }
-              },
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: AlertDialog(
+            title: Text('Enter Secret Key'),
+            content: TextField(
+              controller: _secretKeyController,
+              decoration: InputDecoration(hintText: 'Secret Key'),
+              obscureText: false, // Para ocultar el texto ingresado
             ),
-          ],
+            actions: <Widget>[
+              TextButton(
+                child: Text('Submit'),
+                onPressed: () {
+                  if (_secretKeyController.text == 'destroyallcarrots') {
+                    Navigator.of(context).pop(); // Cierra el diálogo actual
+                    _showCarrotAddMenu(
+                        context); // Muestra el menú para agregar zanahorias
+                  } else {
+                    Navigator.of(context)
+                        .pop(); // Cierra el diálogo si la clave es incorrecta
+                    _showErrorSnackBar(context, "No valid key");
+                  }
+                },
+              ),
+            ],
+          ),
         );
       },
     );

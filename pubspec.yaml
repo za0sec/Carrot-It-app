@@ -26,6 +26,7 @@ dependencies:
   modern_form_line_awesome_icons:
   get:
   path:
+  stacked_card_carousel:
 
 dev_dependencies:
   flutter_test:

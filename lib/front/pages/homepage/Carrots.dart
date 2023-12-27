@@ -101,10 +101,23 @@ class _CarrotsState extends State<Carrots> {
           trailing: prize.icon(person.carrots),
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                '${prize.description} Se requieren ${prize.price} Carrots para canjearlo.',
-                textAlign: TextAlign.justify,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+              child: Column(
+                children: [
+                  Text(
+                    prize.description,
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    '${prize.price} Carrots are needed for redeem.',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -139,7 +152,15 @@ class _CarrotsState extends State<Carrots> {
                                     "${widget.person.name} ha canjeado ${prize.name}");
                               }
                             });
-                            widget.person.redeems.add(prize);
+                            DateTime today = DateTime.now();
+                            DateTime todayDate =
+                                DateTime(today.year, today.month, today.day);
+
+                            if (!widget.person.redeems.containsKey(todayDate)) {
+                              widget.person.redeems[todayDate] = [];
+                            }
+
+                            widget.person.redeems[todayDate]!.add(prize);
                             _onRedeemButtonPressed(prize);
                           },
                           style: ElevatedButton.styleFrom(
