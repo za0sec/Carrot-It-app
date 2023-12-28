@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Information extends StatelessWidget {
   @override
@@ -31,17 +32,23 @@ class Information extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
-                'My name is Javier and I am a freelance mobile app developer. If you need any mobile app for your company then contact me for more informations',
+                'My name is Javier and I am a freelance developer. If you need a developer then contact me for more informations',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
               ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Acción para el botón contact-me
+              onPressed: () async {
+                Uri url = Uri.parse(
+                    'https://www.linkedin.com/in/javier-peral-belmont-854052208/');
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                } else {
+                  throw 'No se pudo lanzar $url';
+                }
               },
-              child: Text('contact-me'),
+              child: Text('Contact me'),
               style: ElevatedButton.styleFrom(
                   backgroundColor:
                       Color(0xFFfff0e8)), // Ajusta al color de tu preferencia

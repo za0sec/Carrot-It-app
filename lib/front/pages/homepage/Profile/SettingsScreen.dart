@@ -24,22 +24,13 @@ class _SettingsScreen extends State<SettingsScreen> {
         children: [
           Container(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Colors.orange.shade200, // Naranja claro
-                  Colors.orange.shade400, // Un tono de naranja más oscuro
-                ],
-              ),
-            ),
+            color: Color(0xFFfff0e8),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.close, color: Colors.white),
+                    icon: Icon(Icons.close, color: Colors.black),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   Expanded(
@@ -48,7 +39,7 @@ class _SettingsScreen extends State<SettingsScreen> {
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                   ),

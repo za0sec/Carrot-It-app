@@ -14,9 +14,12 @@ enum Prizes {
       'Redeemable for an entire day at a shopping center of choice and a MINI gift (can be food or something very small)'),
   homeFood('Homemade Food', 1000,
       'Redeemable for a romantic meal. Homemade food cooked by the person who redeems the ticket'),
-  bag('Handbag', 2000, 'This prize can be redeemed for a handbag of choice'),
-  domoTime('Domos', 5000, 'Redeemable for a night in the domes'),
-  vacations('Vacations', 10000, 'Redeemable for a vacation abroad.');
+  bag('Handbag', 2000,
+      'This prize can be redeemed for a handbag of choice, not Gucci, not Prada, not LV.'),
+  domoTime('Domos', 5000,
+      'Redeemable for a night in the domes. Nestled in a serene natural landscape.'),
+  vacations('Vacations', 10000,
+      'Redeemable for a vacation abroad. Embark on an international getaway.');
 
   final int price;
   final String description;

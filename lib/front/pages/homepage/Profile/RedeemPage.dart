@@ -34,22 +34,21 @@ class RedeemPage extends StatelessWidget {
                       'No redeems yet :(',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 50,
+                        fontSize: 60,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFFfb901c),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Text(
                       'To redeem tickets you have to complete any task on Motivation page',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(
@@ -58,7 +57,10 @@ class RedeemPage extends StatelessWidget {
                             builder: (context) => HomePage(person: person)),
                       );
                     },
-                    child: Text('Go to Motivation page'),
+                    child: Text(
+                      'Go to Motivation page',
+                      style: TextStyle(fontSize: 17),
+                    ),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFfff0e8)),
                   ),

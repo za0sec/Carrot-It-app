@@ -20,12 +20,12 @@ class RedeemCard extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       child: Container(
-        width: screenSize.width * 0.8, // 80% del ancho de la pantalla
-        height: screenSize.height * 0.5, // 50% del alto de la pantalla
+        width: screenSize.width * 0.8,
+        height: screenSize.height * 0.5,
         child: Stack(
           children: <Widget>[
             FractionallySizedBox(
-              widthFactor: 1.3,
+              widthFactor: 1.2,
               heightFactor: 0.9,
               child: Image.asset(
                 'lib/front/assets/images/ticket.png',
@@ -33,29 +33,29 @@ class RedeemCard extends StatelessWidget {
               ),
             ),
             Positioned(
-              left: 75,
-              right: 0,
-              top: screenSize.height * 0.13,
+              left: 0,
+              right: 75,
+              top: screenSize.height * 0.14,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 0.001),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      '¡Ticket para ${prize.name}!',
+                      'Ticket for ${prize.name}!',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
                       ),
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 30),
                     Text(
-                      'Valido solo el ${date.day}/${date.month}/${date.year}\nValido por un solo uso.\nScreenshotear y enviar.',
+                      'Valid through ${date.day}/${date.month}/${date.year}\nOne time use.\nScreenshot & send.',
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Propiedad de ${person.name}',
+                      'Property of ${person.name}',
                     ),
                   ],
                 ),

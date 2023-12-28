@@ -21,6 +21,8 @@ class _CarrotsState extends State<Carrots> {
   final ConfettiController _confettiController =
       ConfettiController(duration: Duration(seconds: 10));
 
+  DateTime today = DateTime.now();
+
   @override
   void initState() {
     super.initState();
@@ -152,7 +154,6 @@ class _CarrotsState extends State<Carrots> {
                                     "${widget.person.name} ha canjeado ${prize.name}");
                               }
                             });
-                            DateTime today = DateTime.now();
                             DateTime todayDate =
                                 DateTime(today.year, today.month, today.day);
 
@@ -192,6 +193,7 @@ class _CarrotsState extends State<Carrots> {
 
   void _onRedeemButtonPressed(Prizes prize) {
     _confettiController.play();
+    var screenSize = MediaQuery.of(context).size;
 
     showDialog(
       context: context,
@@ -217,33 +219,39 @@ class _CarrotsState extends State<Carrots> {
                   Colors.purple
                 ],
               ),
-              Image.asset(
-                'lib/front/assets/images/ticket.png',
-                width: 400,
+              FractionallySizedBox(
+                widthFactor: 1.2,
+                heightFactor: 0.4,
+                child: Image.asset(
+                  'lib/front/assets/images/ticket.png',
+                  fit: BoxFit.contain,
+                ),
               ),
               Positioned(
-                left: 90,
-                top: 0,
-                bottom: 0,
-                right: 0,
+                left: 0,
+                right: 60,
+                top: screenSize.height * 0.08,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 0.001),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        '¡Ticket para ${prize.name}!',
+                        'Ticket for ${prize.name}!',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 25,
                         ),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 15),
                       Text(
-                        'Valido por un solo uso. Screenshotear y enviar.',
+                        'Valid through ${today.day}/${today.month}/${today.year}\n\nOne time use.\nScreenshot & send.',
                       ),
-                      SizedBox(height: 10)
+                      SizedBox(height: 10),
+                      Text(
+                        'Property of ${widget.person.name}',
+                      ),
                     ],
                   ),
                 ),
