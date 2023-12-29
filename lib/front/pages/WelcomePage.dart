@@ -65,13 +65,13 @@ class _WelcomePageState extends State<WelcomePage> {
                     borderRadius: BorderRadius.circular(15),
                     borderSide: BorderSide.none,
                   ),
-                  hintText: 'Ingresa tu nombre',
+                  hintText: 'Your name',
                 ),
               ),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _handleGetStarted,
-                child: Text('Comenzar'),
+                child: Text('Get started'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black,
@@ -91,7 +91,7 @@ class _WelcomePageState extends State<WelcomePage> {
     person.save();
     PushNotification pushNotif = PushNotification(person);
     pushNotif.initNotifications();
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => HomePage(person: person)),
     );

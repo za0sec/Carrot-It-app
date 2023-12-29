@@ -112,7 +112,7 @@ class _CounterState extends State<Counter> {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => HomePage(person: widget.person),

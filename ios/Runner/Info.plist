@@ -36,8 +36,25 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen.storyboard</string>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>StaticImages</key>
+		<dict>
+			<key>Default</key>
+			<dict>
+				<key>ImageName</key>
+				<string>LaunchImage</string>
+				<key>MinimumSystemVersion</key>
+				<string>14.0</string>
+				<key>New item</key>
+				<string></string>
+				<key>UILaunchImageSize</key>
+				<string>{375, 812}</string>
+				<key>UILaunchImageOrientation</key>
+				<string>Portrait</string>
+			</dict>
+		</dict>
+	</dict>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
