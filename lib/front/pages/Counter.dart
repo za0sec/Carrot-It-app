@@ -118,7 +118,7 @@ class _CounterState extends State<Counter> {
                     builder: (context) => HomePage(person: widget.person),
                   ),
                 );
-                widget.person.setCarrots(3, DateTime.now());
+                widget.person.setCarrots(DateTime.now());
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

@@ -13,9 +13,10 @@ class Person {
   String? profileImagePath;
   DateTime? dateTime;
   TimeOfDay? time;
-  int days = 0;
   DateTime? lastDate;
+  int days = 0;
   int multiplier = 0;
+  int sumCarrots = 1;
   String? alertEmail;
   Map<DateTime, List<Prizes>> redeems = {};
   Person(this.name, this.carrots, {this.profileImagePath});
@@ -30,38 +31,38 @@ class Person {
     save();
   }
 
-  void setCarrots(int carrots, DateTime actualDate) {
+  void setCarrots(DateTime actualDate) {
     _resetDaysIfNotConsecutive(actualDate);
-    carrots = _limitCarrotsToMaximum(carrots);
-    _incrementDays();
-    carrots = _applyMultiplierToCarrots(carrots);
-    _updateCarrotsCount(carrots);
+    sumCarrots++;
+    days++;
+    sumCarrots = _limitCarrotsToMaximum(days);
+    sumCarrots = _applyMultiplierToCarrots(sumCarrots);
+    _updateCarrotsCount(sumCarrots);
     save();
   }
 
   void _resetDaysIfNotConsecutive(DateTime actualDate) {
     if (lastDate != null && !_isNextDay(actualDate, lastDate!)) {
       days = 0;
+      multiplier = 0;
+      sumCarrots = 1;
     }
     lastDate = actualDate;
   }
 
   bool _isNextDay(DateTime date1, DateTime date2) {
-    return date1.difference(date2).inDays == 1;
+    final difference = date1.difference(date2).inDays;
+    return difference == 1 || difference == 0;
   }
 
-  int _limitCarrotsToMaximum(int carrots) {
-    return carrots >= 7 ? 7 : carrots;
-  }
-
-  void _incrementDays() {
-    days++;
+  int _limitCarrotsToMaximum(int days) {
+    return days >= 7 ? 7 : days;
   }
 
   int _applyMultiplierToCarrots(int carrots) {
     if (_everySeventhDay()) {
       multiplier++;
-      return carrots + carrots * multiplier;
+      return carrots + (carrots * multiplier);
     }
     return carrots;
   }
@@ -72,12 +73,6 @@ class Person {
 
   void _updateCarrotsCount(int carrots) {
     this.carrots += carrots;
-  }
-
-  bool _nextDay(DateTime date1, DateTime date2) {
-    final difference = date1.difference(date2).inDays;
-
-    return difference == 1;
   }
 
   void setToken(String? token) {
