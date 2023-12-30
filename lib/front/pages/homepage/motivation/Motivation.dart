@@ -1,9 +1,10 @@
-import 'package:carrot/front/pages/widgets/Pills.dart';
-import 'package:carrot/front/pages/widgets/Soon.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/Gym.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/Pills.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/Soon.dart';
 import 'package:flutter/material.dart';
 
-import '../../../back/Person.dart';
-import 'Profile/SettingsScreen.dart';
+import '../../../../back/Person.dart';
+import '../profile/SettingsScreen.dart';
 
 class Motivation extends StatefulWidget {
   final Person person;
@@ -22,12 +23,12 @@ class _State extends State<Motivation> {
     super.initState();
     boxContent = [
       Pills(person: widget.person),
+      Gym(person: widget.person),
       Soon(),
       Soon(),
       Soon(),
       Soon(),
       Soon(),
-      Soon()
     ];
   }
 

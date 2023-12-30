@@ -18,21 +18,20 @@ class _SoonState extends State<Soon> {
         borderRadius: BorderRadius.circular(20),
       ),
       elevation: 5,
-        child: Container(
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Coming Soon'),
-                SizedBox(height: 10),
-                FaIcon(
-                  FontAwesomeIcons.gavel,
-                  size: 24.0,
-                  color: Color(0xFFfb901c),
-                ),
-              ]
+      child: Container(
+        alignment: Alignment.center,
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(
+            'Coming soon',
           ),
-        ),
+          SizedBox(height: 10),
+          FaIcon(
+            FontAwesomeIcons.gavel,
+            size: 24.0,
+            color: Color(0xFFfb901c),
+          ),
+        ]),
+      ),
     );
   }
 }

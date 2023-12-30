@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:carrot/front/pages/homepage/HomePage.dart';
 import 'package:flutter/material.dart';
 
-import '../../back/Person.dart';
+import '../../../../back/Person.dart';
 
 class Counter extends StatefulWidget {
   final Person person;

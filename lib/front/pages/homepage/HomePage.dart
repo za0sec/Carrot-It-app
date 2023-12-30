@@ -1,9 +1,9 @@
-import 'package:carrot/front/pages/homepage/Motivation.dart';
+import 'package:carrot/front/pages/homepage/motivation/Motivation.dart';
 import 'package:flutter/material.dart';
 import '../../../back/Person.dart';
 import '../../../src/providers/push_notifications_provider.dart';
-import 'Carrots.dart';
-import 'Profile/Profile.dart';
+import 'carrots/Carrots.dart';
+import 'profile/Profile.dart';
 
 class HomePage extends StatefulWidget {
   final Person person;

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../back/Person.dart';
+import '../../../../back/Person.dart';
 
 class RePick extends StatefulWidget {
   final Person person;
@@ -69,7 +69,6 @@ class _RePickState extends State<RePick> {
             ElevatedButton(
               onPressed: () async {
                 await _selectDateAndTime(context);
-                widget.person.setCarrots(50, DateTime.now());
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

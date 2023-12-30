@@ -1,8 +1,8 @@
-import 'package:carrot/front/pages/widgets/RePick.dart';
+import 'package:carrot/front/pages/homepage/carrots/RePick.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../back/Person.dart';
+import '../../../../../back/Person.dart';
 
 class Pills extends StatefulWidget {
   final Person person;
@@ -38,9 +38,13 @@ class _PillsState extends State<Pills> {
         child: Container(
           alignment: Alignment.center,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(
+              'Pills',
+            ),
+            SizedBox(height: 5),
             FaIcon(
               FontAwesomeIcons.pills,
-              size: 37.0,
+              size: 33.0,
               color: Color(0xFFfb901c),
             ),
           ]),

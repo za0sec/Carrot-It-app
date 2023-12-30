@@ -16,7 +16,7 @@ class Person {
   DateTime? lastDate;
   int days = 0;
   int multiplier = 0;
-  int sumCarrots = 1;
+  int sumCarrots = 0;
   String? alertEmail;
   Map<DateTime, List<Prizes>> redeems = {};
   Person(this.name, this.carrots, {this.profileImagePath});
@@ -45,14 +45,14 @@ class Person {
     if (lastDate != null && !_isNextDay(actualDate, lastDate!)) {
       days = 0;
       multiplier = 0;
-      sumCarrots = 1;
+      sumCarrots = 0;
     }
     lastDate = actualDate;
   }
 
   bool _isNextDay(DateTime date1, DateTime date2) {
     final difference = date1.difference(date2).inDays;
-    return difference == 1 || difference == 0;
+    return difference == 1;
   }
 
   int _limitCarrotsToMaximum(int days) {

@@ -1,9 +1,9 @@
-import 'package:carrot/front/pages/Counter.dart';
-import 'package:carrot/front/pages/homepage/Profile/Info.dart';
+import 'package:carrot/front/pages/homepage/carrots/Counter.dart';
+import 'package:carrot/front/pages/homepage/profile/Info.dart';
 import 'package:carrot/front/pages/WelcomePage.dart';
 import 'package:carrot/front/pages/homepage/HomePage.dart';
-import 'package:carrot/front/pages/widgets/RePick.dart';
-import 'package:carrot/front/pages/homepage/Profile/SettingsScreen.dart';
+import 'package:carrot/front/pages/homepage/carrots/RePick.dart';
+import 'package:carrot/front/pages/homepage/profile/SettingsScreen.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

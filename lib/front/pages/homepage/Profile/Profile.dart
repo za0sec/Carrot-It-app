@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:carrot/front/pages/homepage/Profile/Info.dart';
+import 'package:carrot/front/pages/homepage/profile/Info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -302,11 +302,10 @@ class _State extends State<Profile> {
           content: Text('You can add carrots here.'),
           actions: <Widget>[
             ElevatedButton(
-              child: Text('Add Carrots'),
-              onPressed: () {
-                widget.person.setCarrots(1000, DateTime.now());
-              },
-            ),
+                child: Text('Add Carrots'),
+                onPressed: () async {
+                  widget.person.setCarrots(await _selectDate(context));
+                }),
           ],
         );
       },
@@ -321,5 +320,21 @@ class _State extends State<Profile> {
         duration: Duration(seconds: 3),
       ),
     );
+  }
+
+  Future<DateTime> _selectDate(BuildContext context) async {
+    final currentDate = DateTime.now();
+    final DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: currentDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (selectedDate == null) {
+      return currentDate;
+    }
+
+    return selectedDate;
   }
 }
