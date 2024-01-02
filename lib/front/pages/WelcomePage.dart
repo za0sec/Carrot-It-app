@@ -1,5 +1,7 @@
+import 'package:carrot/back/person/PersonRepository.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/pills/Counter.dart';
 import 'package:flutter/material.dart';
-import '../../back/Person.dart';
+import '../../back/person/Person.dart';
 import 'homepage/HomePage.dart';
 import 'package:carrot/src/providers/push_notifications_provider.dart';
 
@@ -98,7 +100,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Future<void> _checkSavedPerson() async {
-    final savedPerson = await Person.getSavedPerson();
+    final savedPerson = await PersonRepository.getSavedPerson();
     if (savedPerson != null) {
       Navigator.pushReplacement(
         context,

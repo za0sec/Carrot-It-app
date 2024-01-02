@@ -3,7 +3,7 @@ import 'package:carrot/front/pages/homepage/profile/RedeemPage.dart';
 import 'package:flutter/material.dart';
 import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
 
-import '../../../../back/Person.dart';
+import '../../../../back/person/Person.dart';
 import 'ProfileMenuWidget.dart';
 
 class SettingsScreen extends StatefulWidget {

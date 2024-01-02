@@ -1,21 +1,28 @@
-import 'package:carrot/front/pages/homepage/carrots/Counter.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/pills/Counter.dart';
 import 'package:carrot/front/pages/homepage/profile/Info.dart';
 import 'package:carrot/front/pages/WelcomePage.dart';
 import 'package:carrot/front/pages/homepage/HomePage.dart';
-import 'package:carrot/front/pages/homepage/carrots/RePick.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/pills/RePick.dart';
 import 'package:carrot/front/pages/homepage/profile/SettingsScreen.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import '../back/Person.dart';
+import 'back/person/Person.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
   tz.initializeTimeZones();
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    print("Error durante la inicialización: $e");
+  }
   runApp(MyApp());
 }
 

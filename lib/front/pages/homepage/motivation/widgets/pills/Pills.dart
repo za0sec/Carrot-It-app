@@ -1,8 +1,8 @@
-import 'package:carrot/front/pages/homepage/carrots/RePick.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/pills/RePick.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../../../back/Person.dart';
+import '../../../../../../back/person/Person.dart';
 
 class Pills extends StatefulWidget {
   final Person person;

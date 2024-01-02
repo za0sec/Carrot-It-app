@@ -1,4 +1,6 @@
-import 'package:carrot/back/Person.dart';
+import 'package:carrot/back/person/Person.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/gym/GymDone.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/gym/GymPage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -22,7 +24,14 @@ class _GymState extends State<Gym> {
       elevation: 5,
       child: InkWell(
         onTap: () {
-          widget.person.carrots += 3000;
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => (widget.person.gym == null ||
+                        widget.person.daysOfWeekSelected == null)
+                    ? GymPage(person: widget.person)
+                    : GymDone(person: widget.person)),
+          );
         },
         child: Container(
           alignment: Alignment.center,

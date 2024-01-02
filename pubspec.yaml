@@ -23,11 +23,15 @@ dependencies:
   http:
   image_picker:
   path_provider:
+  flutter_google_places:
+  google_maps_flutter:
   modern_form_line_awesome_icons:
   get:
   path:
   stacked_card_carousel:
   url_launcher:
+  flutter_dotenv:
+  geolocator:
 
 dev_dependencies:
   flutter_test:
@@ -58,5 +62,6 @@ flutter_launcher_icons:
 flutter:
   uses-material-design: true
   assets:
+    - .env
     - lib/front/assets/images/
     -  lib/front/assets/icons/

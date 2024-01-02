@@ -28,12 +28,15 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Esta aplicación necesita acceso a tu camara para tomar imagenes.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Esta aplicación necesita acceso a tu ubicación para sugerir gimnasios cercanos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Esta aplicación necesita acceso a tu galería para seleccionar imágenes.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchScreen</key>
@@ -48,10 +51,10 @@
 				<string>14.0</string>
 				<key>New item</key>
 				<string></string>
-				<key>UILaunchImageSize</key>
-				<string>{375, 812}</string>
 				<key>UILaunchImageOrientation</key>
 				<string>Portrait</string>
+				<key>UILaunchImageSize</key>
+				<string>{375, 812}</string>
 			</dict>
 		</dict>
 	</dict>

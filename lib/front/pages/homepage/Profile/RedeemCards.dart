@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'package:carrot/back/Person.dart';
+import 'package:carrot/back/person/Person.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../back/prizes/prizes.dart';
 
@@ -51,7 +52,7 @@ class RedeemCard extends StatelessWidget {
                     ),
                     SizedBox(height: 30),
                     Text(
-                      'Valid through ${date.day}/${date.month}/${date.year}\nOne time use.\nScreenshot & send.',
+                      'Valid through ${DateFormat('dd-MM-yyyy').format(date)}\nOne time use.\nScreenshot & send.',
                     ),
                     SizedBox(height: 10),
                     Text(

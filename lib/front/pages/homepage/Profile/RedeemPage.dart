@@ -1,4 +1,4 @@
-import 'package:carrot/back/Person.dart';
+import 'package:carrot/back/person/Person.dart';
 import 'package:carrot/front/pages/homepage/HomePage.dart';
 import 'package:carrot/front/pages/homepage/profile/RedeemCards.dart';
 import 'package:flutter/material.dart';

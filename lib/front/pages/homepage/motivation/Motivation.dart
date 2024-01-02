@@ -1,9 +1,9 @@
-import 'package:carrot/front/pages/homepage/motivation/widgets/Gym.dart';
-import 'package:carrot/front/pages/homepage/motivation/widgets/Pills.dart';
-import 'package:carrot/front/pages/homepage/motivation/widgets/Soon.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/gym/Gym.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/pills/Pills.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/comingSoon/Soon.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../back/Person.dart';
+import '../../../../back/person/Person.dart';
 import '../profile/SettingsScreen.dart';
 
 class Motivation extends StatefulWidget {

@@ -1,10 +1,12 @@
 import 'dart:collection';
 import 'dart:math';
+import 'package:carrot/back/network/NetworkService.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
-import '../../../../back/Person.dart';
+import '../../../../back/person/Person.dart';
 import '../../../../back/prizes/prizes.dart';
 import '../profile/SettingsScreen.dart';
 
@@ -30,7 +32,7 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
     super.initState();
     _confettiController.play();
     _controller = AnimationController(
-      duration: Duration(milliseconds: 2100),
+      duration: Duration(milliseconds: 3400),
       vsync: this,
     );
 
@@ -51,7 +53,6 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
   void didUpdateWidget(Carrots oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.person.carrots != widget.person.carrots) {
-      // Actualizar la animación cuando cambie el número de carrots
       _animation = IntTween(begin: _animation.value, end: widget.person.carrots)
           .animate(_controller)
         ..addListener(() {
@@ -97,10 +98,10 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
               builder: (BuildContext context, BoxConstraints constraints) {
                 var top = constraints.biggest.height;
                 double titlePadding = max((top - 70) / 2, 20);
-                double fontSize = (top - 120) * (65 - 30) / (200 - 120) + 30;
-                fontSize = min(max(fontSize, 30), 65);
-                double iconSize = (top - 120) * (50 - 25) / (200 - 120) + 25;
-                iconSize = min(max(iconSize, 25), 50);
+                double fontSize = (top - 120) * (65 - 40) / (200 - 120) + 40;
+                fontSize = min(max(fontSize, 40), 65);
+                double iconSize = (top - 120) * (50 - 32) / (200 - 120) + 32;
+                iconSize = min(max(iconSize, 32), 50);
                 double spaceWidth = (top - 120) * (20 - 5) / (200 - 120) + 5;
                 spaceWidth = min(max(spaceWidth, 5), 20);
                 return FlexibleSpaceBar(
@@ -198,8 +199,10 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
                             setState(() {
                               person.redeemPrice(prize.price);
                               if (widget.person.alertEmail != null) {
-                                widget.person.sendEmail("Canje de Premio",
-                                    "${widget.person.name} ha canjeado ${prize.name}");
+                                NetworkService.sendEmail(
+                                    "Canje de Premio",
+                                    "${widget.person.name} ha canjeado ${prize.name}",
+                                    widget.person.alertEmail!);
                               }
                             });
                             DateTime todayDate =
@@ -311,7 +314,7 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
                       ),
                       SizedBox(height: 15),
                       Text(
-                        'Valid through ${today.day}/${today.month}/${today.year}\n\nOne time use.\nScreenshot & send.',
+                        'Valid through ${DateFormat('dd-MM-yyyy').format(today)}\n\nOne time use.\nScreenshot & send.',
                       ),
                       SizedBox(height: 10),
                       Text(
