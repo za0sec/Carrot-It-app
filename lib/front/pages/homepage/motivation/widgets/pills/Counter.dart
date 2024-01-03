@@ -118,6 +118,9 @@ class _CounterState extends State<Counter> {
                     builder: (context) => HomePage(person: widget.person),
                   ),
                 );
+                if (!widget.person.firstPill) {
+                  widget.person.firstPill = true;
+                }
                 widget.person.setCarrots(DateTime.now());
               },
               style: ElevatedButton.styleFrom(

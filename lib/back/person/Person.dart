@@ -8,7 +8,8 @@ class Person {
   int carrots;
   String? token;
   String? profileImagePath;
-  DateTime? dateTime;
+  //This is set to yesterday just to work.
+  DateTime dateTime = DateTime.now().subtract(Duration(days: 1));
   TimeOfDay? time;
   DateTime? lastDate;
   int days = 0;
@@ -18,6 +19,7 @@ class Person {
   String? gym;
   Map<DateTime, List<Prizes>> redeems = {};
   List<bool>? daysOfWeekSelected;
+  bool firstPill = false;
   Person(this.name, this.carrots, {this.profileImagePath});
 
   @override
@@ -126,9 +128,7 @@ class Person {
         daysOfWeekSelected = personMap['daysOfWeekSelected'] != null
             ? _parseDaysOfWeekSelected(personMap['daysOfWeekSelected'])
             : null,
-        dateTime = personMap['dateTime'] != null
-            ? DateTime.parse(personMap['dateTime'])
-            : null,
+        dateTime = DateTime.parse(personMap['dateTime']),
         multiplier = personMap['multiplier'] ?? 0,
         alertEmail = personMap['alertEmail'] {
     if (personMap['time'] != null) {

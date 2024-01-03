@@ -20,7 +20,7 @@ class PersonRepository {
       'name': person.name,
       'carrots': person.carrots,
       'token': person.token,
-      'dateTime': person.dateTime?.toIso8601String(),
+      'dateTime': person.dateTime.toIso8601String(),
       'time': person.time != null
           ? "${person.time!.hour}:${person.time!.minute}"
           : null,

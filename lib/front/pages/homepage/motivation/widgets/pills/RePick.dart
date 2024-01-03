@@ -115,6 +115,7 @@ class _RePickState extends State<RePick> {
       if (selectedTime != null && mounted) {
         setState(() {
           widget.person.setTime(selectedTime, selectedDate);
+          widget.person.firstPill = false;
         });
       }
     }

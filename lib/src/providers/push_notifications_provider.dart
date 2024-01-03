@@ -52,9 +52,11 @@ class PushNotification {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => !_isSameDate(
-                person.lastDate != null ? person.lastDate! : DateTime.now(),
-                DateTime.now())
+        builder: (context) => (!_isSameDate(
+                    person.lastDate != null ? person.lastDate! : DateTime.now(),
+                    DateTime.now()) ||
+                (_isSameDate(person.dateTime, DateTime.now()) &&
+                    !person.firstPill))
             ? Counter(person: person, startTimerOnLoad: startTimer)
             : HomePage(person: person),
       ),

@@ -72,13 +72,16 @@ class _MotivationalState extends State<HomePage> with WidgetsBindingObserver {
       TimeOfDay horaFin = addMinutes(widget.person.time!, 5);
 
       TimeOfDay ahora = TimeOfDay.now();
+      DateTime today = DateTime.now();
 
       if (_belongsToRange(ahora, horaInicio, horaFin) &&
-          !_isSameDate(
-              widget.person.lastDate != null
-                  ? widget.person.lastDate!
-                  : DateTime.now(),
-              DateTime.now())) {
+              (!_isSameDate(
+                  widget.person.lastDate != null
+                      ? widget.person.lastDate!
+                      : today,
+                  today)) ||
+          (_isSameDate(widget.person.dateTime, today) &&
+              !widget.person.firstPill)) {
         Navigator.push(
           context,
           MaterialPageRoute(
