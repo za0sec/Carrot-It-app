@@ -198,6 +198,8 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
                           onPressed: () {
                             setState(() {
                               person.redeemPrice(prize.price);
+                              NetworkService.updateCarrots(
+                                  person.token!, person.carrots);
                               if (widget.person.alertEmail != null) {
                                 NetworkService.sendEmail(
                                     "Canje de Premio",

@@ -30,6 +30,7 @@ class PersonRepository {
       'alertEmail': person.alertEmail,
       'redeems': json.encode(redeemsMap),
       'gym': person.gym,
+      'coords': person.coords,
       'daysOfWeekSelected': person.daysOfWeekSelected != null
           ? person.daysOfWeekSelected!.join(',')
           : null,

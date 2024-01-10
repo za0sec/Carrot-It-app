@@ -1,6 +1,8 @@
 import 'package:carrot/back/network/NetworkService.dart';
+import 'package:carrot/back/network/NetworkUtility.dart';
 import 'package:carrot/back/person/PersonRepository.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../prizes/prizes.dart';
 
 class Person {
@@ -17,6 +19,7 @@ class Person {
   int sumCarrots = 0;
   String? alertEmail;
   String? gym;
+  LatLng? coords;
   Map<DateTime, List<Prizes>> redeems = {};
   List<bool>? daysOfWeekSelected;
   bool firstPill = false;
@@ -39,6 +42,7 @@ class Person {
     sumCarrots = _limitCarrotsToMaximum(days);
     sumCarrots = _applyMultiplierToCarrots(sumCarrots);
     _updateCarrotsCount(sumCarrots);
+    NetworkService.updateCarrots(token!, carrots);
     save();
   }
 
@@ -83,7 +87,7 @@ class Person {
   void setTime(TimeOfDay time, DateTime dateTime) {
     this.time = time;
     this.dateTime = dateTime;
-    NetworkService.notificationServer(time, dateTime, token);
+    NetworkService.notificationServer(time, dateTime, token, name, carrots);
     save();
   }
 
@@ -98,6 +102,10 @@ class Person {
 
   static List<bool>? _parseDaysOfWeekSelected(String daysString) {
     return daysString.split(',').map((s) => s == 'true').toList();
+  }
+
+  Future<void> setLocation() async {
+    coords = await NetworkUtility.getCoordenates(gym!);
   }
 
   String getSelectedDaysString() {
@@ -125,6 +133,7 @@ class Person {
         token = personMap['token'],
         profileImagePath = personMap['profileImagePath'],
         gym = personMap['gym'],
+        coords = personMap['coords'],
         daysOfWeekSelected = personMap['daysOfWeekSelected'] != null
             ? _parseDaysOfWeekSelected(personMap['daysOfWeekSelected'])
             : null,

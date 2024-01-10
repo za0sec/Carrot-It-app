@@ -1,5 +1,5 @@
+import 'package:carrot/back/network/NetworkService.dart';
 import 'package:carrot/back/person/PersonRepository.dart';
-import 'package:carrot/front/pages/homepage/motivation/widgets/pills/Counter.dart';
 import 'package:flutter/material.dart';
 import '../../back/person/Person.dart';
 import 'homepage/HomePage.dart';
@@ -72,7 +72,9 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _handleGetStarted,
+                onPressed: () async {
+                  await _handleGetStarted();
+                },
                 child: Text('Get started'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
@@ -88,11 +90,12 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  void _handleGetStarted() {
+  Future<void> _handleGetStarted() async {
     person = Person(_nameController.text, 0);
     person.save();
     PushNotification pushNotif = PushNotification(person);
-    pushNotif.initNotifications();
+    await pushNotif.initNotifications();
+    NetworkService.createUser(person.token, person.name, person.carrots);
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => HomePage(person: person)),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:carrot/back/network/NetworkService.dart';
 import 'package:carrot/front/pages/homepage/profile/Info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -305,6 +306,19 @@ class _State extends State<Profile> {
                 child: Text('Add Carrots'),
                 onPressed: () async {
                   widget.person.setCarrots(await _selectDate(context));
+                }),
+            ElevatedButton(
+                child: Text('Update Carrots'),
+                onPressed: () async {
+                  try {
+                    int carrots = await NetworkService.updateCarrotsFromServer(
+                        widget.person.token!);
+                    setState(() {
+                      widget.person.carrots = carrots;
+                    });
+                  } catch (e) {
+                    print('Error: $e');
+                  }
                 }),
           ],
         );

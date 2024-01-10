@@ -187,6 +187,7 @@ class _GymPageState extends State<GymPage> {
                         selectedAddress = prediction.description!;
                         _textController.text = selectedAddress;
                         widget.person.gym = selectedAddress;
+                        widget.person.setLocation();
                         widget.person.save();
                         print(selectedAddress);
                         placePredictions.clear();

@@ -24,17 +24,8 @@ late LatLng? location;
 class _GymDoneState extends State<GymDone> {
   @override
   void initState() {
+    location = widget.person.coords;
     super.initState();
-    _setLocation();
-  }
-
-  Future<void> _setLocation() async {
-    var coordenadas = await NetworkUtility.getCoordenates(widget.person.gym!);
-    if (mounted) {
-      setState(() {
-        location = coordenadas;
-      });
-    }
   }
 
   @override
@@ -122,9 +113,11 @@ class _GymDoneState extends State<GymDone> {
               ),
               ElevatedButton(
                 onPressed: () async {
+                  print(widget.person.coords);
+
                   try {
                     Position posicionActual = await _determinePosition();
-                    LatLng ubicacionObjetivo = location!;
+                    LatLng ubicacionObjetivo = widget.person.coords!;
                     if (_isInLocation(posicionActual, ubicacionObjetivo, 100)) {
                       // El usuario está cerca de la ubicación objetivo
                       print("Estás cerca de la ubicación objetivo!");
