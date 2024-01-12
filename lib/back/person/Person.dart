@@ -42,7 +42,7 @@ class Person {
     sumCarrots = _limitCarrotsToMaximum(days);
     sumCarrots = _applyMultiplierToCarrots(sumCarrots);
     _updateCarrotsCount(sumCarrots);
-    NetworkService.updateCarrots(token!, carrots);
+    NetworkService.updateCarrots(name, carrots);
     save();
   }
 
@@ -135,12 +135,14 @@ class Person {
         gym = personMap['gym'],
         coords = personMap['coords'],
         daysOfWeekSelected = personMap['daysOfWeekSelected'] != null
-            ? _parseDaysOfWeekSelected(personMap['daysOfWeekSelected'])
+            ? List<bool>.from(personMap['daysOfWeekSelected'])
             : null,
-        dateTime = DateTime.parse(personMap['dateTime']),
+        dateTime = personMap['dateTime'] != null
+            ? DateTime.parse(personMap['dateTime'])
+            : DateTime.now().subtract(Duration(days: 1)),
         multiplier = personMap['multiplier'] ?? 0,
         alertEmail = personMap['alertEmail'] {
-    if (personMap['time'] != null) {
+    if (personMap['time'] != null && personMap['time'].isNotEmpty) {
       List<String> timeParts = personMap['time'].split(':');
       time = TimeOfDay(
           hour: int.parse(timeParts[0]), minute: int.parse(timeParts[1]));

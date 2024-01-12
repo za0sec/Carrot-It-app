@@ -1,20 +1,21 @@
 import 'package:carrot/back/network/NetworkService.dart';
 import 'package:carrot/back/person/PersonRepository.dart';
-import 'package:carrot/front/pages/RegisterPage.dart';
+import 'package:carrot/front/pages/WelcomePage.dart';
 import 'package:flutter/material.dart';
 import '../../back/person/Person.dart';
 import 'homepage/HomePage.dart';
 import 'package:carrot/src/providers/push_notifications_provider.dart';
 
-class WelcomePage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   late Person person;
+  bool _obscureText = true;
 
   @override
   void initState() {
@@ -69,12 +70,10 @@ class _WelcomePageState extends State<WelcomePage> {
                     borderRadius: BorderRadius.circular(15),
                     borderSide: BorderSide.none,
                   ),
-                  // configuraciones para este campo
                   hintText: 'Username',
                 ),
               ),
               SizedBox(height: 20),
-              // Agrega un nuevo TextField para la contraseña
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
@@ -84,17 +83,25 @@ class _WelcomePageState extends State<WelcomePage> {
                     borderRadius: BorderRadius.circular(15),
                     borderSide: BorderSide.none,
                   ),
-                  // configuraciones para este campo
                   hintText: 'Password',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                  ),
                 ),
-                obscureText: true, // para ocultar la contraseña
+                obscureText: _obscureText,
               ),
               SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () async {
-                  await _handleLogin();
+                  await _handleRegister();
                 },
-                child: Text('Login'),
+                child: Text('Register'),
                 // Estilos del botón
               ),
               SizedBox(height: 10), // Espacio entre los botones
@@ -102,11 +109,11 @@ class _WelcomePageState extends State<WelcomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RegisterPage()),
+                    MaterialPageRoute(builder: (context) => WelcomePage()),
                   );
                 },
                 child: Text(
-                  'Register',
+                  'Login',
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.blue, // Color del texto
@@ -123,32 +130,36 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  Future<void> _handleLogin() async {
+  Future<void> _handleRegister() async {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
+    person = Person(username, 0);
     PushNotification pushNotif = PushNotification(person);
     await pushNotif.initNotifications();
-    Person? nPerson =
-        await NetworkService.login(username, password, person.token!);
-
-    if (nPerson!.name.length >= 1) {
-      person = nPerson;
-      person.save();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage(person: person)),
-      );
-    } else {
+    if (!isValidPassword(password)) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Wrong user or password',
+            'Password must contain 8+ characters, 1+ capital letter and numbers.',
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Colors.red,
         ),
       );
+    } else {
+      bool success =
+          await NetworkService.register(username, password, person.token!);
+
+      if (success) {
+        person.save();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage(person: person)),
+        );
+      } else {
+        print('ERRORRRRRR');
+      }
     }
   }
 
@@ -160,5 +171,11 @@ class _WelcomePageState extends State<WelcomePage> {
         MaterialPageRoute(builder: (context) => HomePage(person: savedPerson)),
       );
     }
+  }
+
+  bool isValidPassword(String password) {
+    String pattern = r'^(?=.*[A-Z])(?=.*[0-9]).{8,}$';
+    RegExp regExp = RegExp(pattern);
+    return regExp.hasMatch(password);
   }
 }

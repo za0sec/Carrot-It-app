@@ -1,3 +1,4 @@
+import 'package:carrot/back/network/NetworkService.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/GymDone.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/utilities/LocationListTitle.dart';
 import 'package:carrot/back/network/NetworkUtility.dart';
@@ -191,18 +192,38 @@ class _GymPageState extends State<GymPage> {
                         widget.person.save();
                         print(selectedAddress);
                         placePredictions.clear();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                GymDone(person: widget.person),
-                          ),
-                        );
                       });
                       FocusScope.of(context).requestFocus(new FocusNode());
                     },
                   );
                 },
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  bool success = await NetworkService.saveGym(
+                      widget.person.name,
+                      widget.person.gym!,
+                      widget.person.daysOfWeekSelected!);
+                  if (success) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GymDone(person: widget.person),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Error in database...',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                },
+                child: Text('Save'),
               ),
             ],
           ),

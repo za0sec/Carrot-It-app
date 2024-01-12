@@ -15,7 +15,7 @@ Icon?
 profile
 xcuserdata
 **/.generated/
-Config.swift
+Runner/AppDelegate.swift
 Flutter/App.framework
 Flutter/Flutter.framework
 Flutter/Flutter.podspec

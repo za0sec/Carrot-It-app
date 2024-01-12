@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:carrot/back/network/NetworkService.dart';
+import 'package:carrot/back/person/PersonRepository.dart';
+import 'package:carrot/front/pages/WelcomePage.dart';
 import 'package:carrot/front/pages/homepage/profile/Info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -156,7 +158,8 @@ class _State extends State<Profile> {
                 ],
               ),
               const SizedBox(height: 10),
-              Text(widget.person.name,
+              Text(
+                  '${widget.person.name[0].toUpperCase()}${widget.person.name.substring(1).toLowerCase()}',
                   style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 10),
 
@@ -239,8 +242,14 @@ class _State extends State<Profile> {
                           TextButton(
                             child: Text('Yes'),
                             onPressed: () {
-                              Navigator.of(context).pop(); // Cierra el diálogo
-                              // Por ejemplo: Navigator.of(context).pushReplacementNamed('/tuRuta');
+                              PersonRepository.clearSavedPerson();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WelcomePage()),
+                                (Route<dynamic> route) =>
+                                    false, // Esto removerá todas las rutas anteriores
+                              );
                             },
                           ),
                         ],

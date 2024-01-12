@@ -1,3 +1,4 @@
+import 'package:carrot/back/network/NetworkService.dart';
 import 'package:carrot/front/pages/homepage/profile/RedeemCards.dart';
 import 'package:carrot/front/pages/homepage/profile/RedeemPage.dart';
 import 'package:flutter/material.dart';
@@ -69,12 +70,35 @@ class _SettingsScreen extends State<SettingsScreen> {
                       actions: <Widget>[
                         TextButton(
                           child: Text('Submit'),
-                          onPressed: () {
+                          onPressed: () async {
                             widget.person.alertEmail = _nameController.text;
+                            bool success = await NetworkService.saveEmail(
+                                widget.person.name, widget.person.alertEmail!);
+                            Navigator.pop(context);
+                            if (success) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Email successfully saved!',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  backgroundColor: Colors.green,
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Error saveing email...',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
                             widget.person.save();
                             print(
                                 'Saved new alertEmail: ${widget.person.alertEmail}');
-                            Navigator.pop(context);
                           },
                         ),
                       ],

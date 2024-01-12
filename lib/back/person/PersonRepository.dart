@@ -60,4 +60,12 @@ class PersonRepository {
     }
     return null;
   }
+
+  static Future<void> clearSavedPerson() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove('savedPerson');
+
+    await prefs.clear();
+  }
 }
