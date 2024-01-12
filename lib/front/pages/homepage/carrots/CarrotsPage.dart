@@ -24,15 +24,19 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
       ConfettiController(duration: Duration(seconds: 10));
   late AnimationController _controller;
   late Animation<int> _animation;
-
+  int baseDurationMillis = 100; // Duración base de 100 milisegundos
+  late int totalDurationMillis;
   DateTime today = DateTime.now();
 
   @override
   void initState() {
+    totalDurationMillis =
+        baseDurationMillis * widget.person.carrots.clamp(20, 50);
+
     super.initState();
     _confettiController.play();
     _controller = AnimationController(
-      duration: Duration(milliseconds: 3400),
+      duration: Duration(milliseconds: totalDurationMillis),
       vsync: this,
     );
 
@@ -199,7 +203,12 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
                             setState(() {
                               person.redeemPrice(prize.price);
                               NetworkService.updateCarrots(
-                                  person.token!, person.carrots);
+                                  person.name,
+                                  person.carrots,
+                                  person.sumCarrots,
+                                  person.multiplier,
+                                  person.days,
+                                  person.lastDate);
                               if (widget.person.alertEmail != null) {
                                 NetworkService.sendEmail(
                                     "Canje de Premio",

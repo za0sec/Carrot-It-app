@@ -26,7 +26,7 @@ class NetworkService {
           'date': dateString,
           'time': timeString,
           'token': token,
-          'name': name,
+          'username': name,
           'carrots': carrots
         }),
       );
@@ -40,9 +40,17 @@ class NetworkService {
     }
   }
 
-  static Future<void> updateCarrots(String username, int newCarrots) async {
+  static Future<void> updateCarrots(String username, int newCarrots,
+      int sumCarrots, int multiplier, int days, DateTime? lastDate) async {
     final url = Uri.parse('$_baseUrl/updateCarrots');
-    var body = json.encode({'username': username, 'newCarrots': newCarrots});
+    var body = json.encode({
+      'username': username,
+      'newCarrots': newCarrots,
+      'sumCarrots': sumCarrots,
+      'multiplier': multiplier,
+      'days': days,
+      'lastDate': lastDate?.toIso8601String()
+    });
     print('Enviando: $body');
 
     try {
@@ -154,6 +162,7 @@ class NetworkService {
         Map<DateTime, List<Prizes>> redeems = {};
         return Person.fromMap(personMap, redeems);
       }
+
       return null;
     } catch (e) {
       print('Error en la solicitud de inicio de sesión: $e');

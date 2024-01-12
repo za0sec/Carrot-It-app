@@ -43,7 +43,11 @@ class PersonRepository {
   static Future<Person?> getSavedPerson() async {
     final prefs = await SharedPreferences.getInstance();
     String? personJson = prefs.getString('savedPerson');
-    if (personJson != null) {
+    if (personJson == null) {
+      print('No saved person found');
+      return null;
+    }
+    try {
       Map<String, dynamic> personMap = json.decode(personJson);
       Map<String, dynamic> redeemsJson =
           json.decode(personMap['redeems'] as String);
@@ -56,16 +60,17 @@ class PersonRepository {
         }).toList();
         redeems[date] = prizes;
       });
+      print('About to call Person.fromMap');
       return Person.fromMap(personMap, redeems);
+    } catch (e) {
+      print('Error: $e');
+      return null;
     }
-    return null;
   }
 
   static Future<void> clearSavedPerson() async {
     final prefs = await SharedPreferences.getInstance();
 
     await prefs.remove('savedPerson');
-
-    await prefs.clear();
   }
 }

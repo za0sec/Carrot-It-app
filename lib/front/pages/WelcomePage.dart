@@ -18,9 +18,9 @@ class _WelcomePageState extends State<WelcomePage> {
 
   @override
   void initState() {
-    super.initState();
-    person = Person('', 0);
     _checkSavedPerson();
+    person = Person('', 0);
+    super.initState();
   }
 
   @override
@@ -132,14 +132,7 @@ class _WelcomePageState extends State<WelcomePage> {
     Person? nPerson =
         await NetworkService.login(username, password, person.token!);
 
-    if (nPerson!.name.length >= 1) {
-      person = nPerson;
-      person.save();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage(person: person)),
-      );
-    } else {
+    if (nPerson == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -150,11 +143,23 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
       );
     }
+
+    if (!nPerson!.isEmpty) {
+      person = nPerson;
+      person.save();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage(person: person)),
+      );
+    }
   }
 
   Future<void> _checkSavedPerson() async {
+    print('antes de esperar');
     final savedPerson = await PersonRepository.getSavedPerson();
+    print('antes de entrar');
     if (savedPerson != null) {
+      print('god');
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomePage(person: savedPerson)),

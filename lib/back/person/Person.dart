@@ -35,14 +35,15 @@ class Person {
     save();
   }
 
-  void setCarrots(DateTime actualDate) {
+  void setCarrots(DateTime actualDate) async {
     _resetDaysIfNotConsecutive(actualDate);
     sumCarrots++;
     days++;
     sumCarrots = _limitCarrotsToMaximum(days);
     sumCarrots = _applyMultiplierToCarrots(sumCarrots);
     _updateCarrotsCount(sumCarrots);
-    NetworkService.updateCarrots(name, carrots);
+    await NetworkService.updateCarrots(
+        name, carrots, sumCarrots, multiplier, days, lastDate);
     save();
   }
 
@@ -134,7 +135,7 @@ class Person {
         profileImagePath = personMap['profileImagePath'],
         gym = personMap['gym'],
         coords = personMap['coords'],
-        daysOfWeekSelected = personMap['daysOfWeekSelected'] != null
+        daysOfWeekSelected = personMap['daysOfWeekSelected'] is List
             ? List<bool>.from(personMap['daysOfWeekSelected'])
             : null,
         dateTime = personMap['dateTime'] != null
@@ -142,6 +143,7 @@ class Person {
             : DateTime.now().subtract(Duration(days: 1)),
         multiplier = personMap['multiplier'] ?? 0,
         alertEmail = personMap['alertEmail'] {
+    print('Person.fromMap is called');
     if (personMap['time'] != null && personMap['time'].isNotEmpty) {
       List<String> timeParts = personMap['time'].split(':');
       time = TimeOfDay(
@@ -151,4 +153,6 @@ class Person {
       lastDate = DateTime.parse(personMap['lastDate']);
     }
   }
+
+  bool get isEmpty => name.isEmpty;
 }
