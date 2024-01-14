@@ -1,12 +1,12 @@
 import 'package:carrot/back/network/NetworkService.dart';
-import 'package:carrot/front/pages/homepage/motivation/widgets/gym/GymDone.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymDone/GymDone.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/utilities/LocationListTitle.dart';
 import 'package:carrot/back/network/NetworkUtility.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/utilities/PlaceAutocompleteResponse.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import '../../../../../../back/person/Person.dart';
+import '../../../../../../../back/person/Person.dart';
 
 class GymPage extends StatefulWidget {
   final Person person;
@@ -203,7 +203,8 @@ class _GymPageState extends State<GymPage> {
                   bool success = await NetworkService.saveGym(
                       widget.person.name,
                       widget.person.gym!,
-                      widget.person.daysOfWeekSelected!);
+                      widget.person.daysOfWeekSelected!,
+                      widget.person.coords!);
                   if (success) {
                     Navigator.pushReplacement(
                       context,

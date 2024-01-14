@@ -26,11 +26,13 @@ class PersonRepository {
           : null,
       'profileImagePath': person.profileImagePath,
       'lastDate': person.lastDate?.toIso8601String(),
+      'gymDate': person.gymDate.toIso8601String(),
       'multiplier': person.multiplier,
       'alertEmail': person.alertEmail,
       'redeems': json.encode(redeemsMap),
       'gym': person.gym,
-      'coords': person.coords,
+      'lat': person.coords?.latitude,
+      'lng': person.coords?.longitude,
       'daysOfWeekSelected': person.daysOfWeekSelected != null
           ? person.daysOfWeekSelected!.join(',')
           : null,
@@ -60,6 +62,7 @@ class PersonRepository {
         }).toList();
         redeems[date] = prizes;
       });
+      print(personMap);
       print('About to call Person.fromMap');
       return Person.fromMap(personMap, redeems);
     } catch (e) {

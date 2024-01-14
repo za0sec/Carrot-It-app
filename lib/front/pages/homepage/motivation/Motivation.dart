@@ -1,4 +1,4 @@
-import 'package:carrot/front/pages/homepage/motivation/widgets/gym/Gym.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymPage/Gym.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/pills/Pills.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/comingSoon/Soon.dart';
 import 'package:flutter/material.dart';

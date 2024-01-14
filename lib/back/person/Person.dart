@@ -19,6 +19,7 @@ class Person {
   int sumCarrots = 0;
   String? alertEmail;
   String? gym;
+  DateTime gymDate = DateTime.now().subtract(Duration(days: 1));
   LatLng? coords;
   Map<DateTime, List<Prizes>> redeems = {};
   List<bool>? daysOfWeekSelected;
@@ -33,6 +34,15 @@ class Person {
   void redeemPrice(int carrots) {
     this.carrots -= carrots;
     save();
+  }
+
+  void addCarrotsGym() {
+    this.gymDate = DateTime.now();
+    this.carrots += 10;
+    this.save();
+    NetworkService.saveDateGym(this.name, this.gymDate);
+    NetworkService.updateCarrots(this.name, this.carrots, this.sumCarrots,
+        this.multiplier, this.days, this.lastDate);
   }
 
   void setCarrots(DateTime actualDate) async {
@@ -107,9 +117,10 @@ class Person {
 
   Future<void> setLocation() async {
     coords = await NetworkUtility.getCoordenates(gym!);
+    save();
   }
 
-  String getSelectedDaysString() {
+  List<String> getSelectedDaysString() {
     List<String> days = [
       'Monday',
       'Tuesday',
@@ -125,7 +136,7 @@ class Person {
         selectedDays.add(days[i]);
       }
     }
-    return selectedDays.join(', ');
+    return selectedDays;
   }
 
   Person.fromMap(Map<String, dynamic> personMap, this.redeems)
@@ -134,12 +145,17 @@ class Person {
         token = personMap['token'],
         profileImagePath = personMap['profileImagePath'],
         gym = personMap['gym'],
-        coords = personMap['coords'],
-        daysOfWeekSelected = personMap['daysOfWeekSelected'] is List
-            ? List<bool>.from(personMap['daysOfWeekSelected'])
+        coords = personMap['lat'] != null
+            ? LatLng(personMap['lat'], personMap['lng'])
+            : null,
+        daysOfWeekSelected = personMap['daysOfWeekSelected'] != null
+            ? _handleDaysOfWeekSelected(personMap['daysOfWeekSelected'])
             : null,
         dateTime = personMap['dateTime'] != null
             ? DateTime.parse(personMap['dateTime'])
+            : DateTime.now().subtract(Duration(days: 1)),
+        gymDate = personMap['gymDate'] != null
+            ? DateTime.parse(personMap['gymDate'])
             : DateTime.now().subtract(Duration(days: 1)),
         multiplier = personMap['multiplier'] ?? 0,
         alertEmail = personMap['alertEmail'] {
@@ -152,6 +168,17 @@ class Person {
     if (personMap['lastDate'] != null) {
       lastDate = DateTime.parse(personMap['lastDate']);
     }
+  }
+
+  static List<bool>? _handleDaysOfWeekSelected(dynamic daysOfWeek) {
+    if (daysOfWeek is String) {
+      // Si es un String, utiliza _parseDaysOfWeekSelected
+      return _parseDaysOfWeekSelected(daysOfWeek);
+    } else if (daysOfWeek is List) {
+      // Si es una List, conviértela directamente
+      return List<bool>.from(daysOfWeek);
+    }
+    return null; // O manejar de otra manera si es necesario
   }
 
   bool get isEmpty => name.isEmpty;

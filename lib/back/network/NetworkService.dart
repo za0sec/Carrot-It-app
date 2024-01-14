@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:carrot/back/person/Person.dart';
 import 'package:carrot/back/prizes/prizes.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -114,14 +115,37 @@ class NetworkService {
   }
 
   static Future<bool> saveGym(
-      String username, String gym, List<bool> selected) async {
+      String username, String gym, List<bool> selected, LatLng coords) async {
     final url = Uri.parse('$_baseUrl/saveGym');
     try {
       final response = await http.post(
         url,
         headers: header,
-        body: json
-            .encode({'username': username, 'gym': gym, 'selected': selected}),
+        body: json.encode({
+          'username': username,
+          'gym': gym,
+          'selected': selected,
+          'lat': coords.latitude,
+          'lng': coords.longitude
+        }),
+      );
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Error en el guardado del gymnasio en la base de datos.');
+      return false;
+    }
+  }
+
+  static Future<bool> saveDateGym(String username, DateTime gymDate) async {
+    final url = Uri.parse('$_baseUrl/saveDateGym');
+    try {
+      final response = await http.post(
+        url,
+        headers: header,
+        body: json.encode({
+          'username': username,
+          'gymdate': gymDate.toIso8601String(),
+        }),
       );
       return response.statusCode == 200;
     } catch (e) {

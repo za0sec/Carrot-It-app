@@ -147,9 +147,14 @@ class _WelcomePageState extends State<WelcomePage> {
     if (!nPerson!.isEmpty) {
       person = nPerson;
       person.save();
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => HomePage(person: person)),
+        MaterialPageRoute(
+            builder: (context) => HomePage(
+                  person: person,
+                )),
+        (Route<dynamic> route) =>
+            false, // Esto removerá todas las rutas anteriores
       );
     }
   }
@@ -160,9 +165,14 @@ class _WelcomePageState extends State<WelcomePage> {
     print('antes de entrar');
     if (savedPerson != null) {
       print('god');
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => HomePage(person: savedPerson)),
+        MaterialPageRoute(
+            builder: (context) => HomePage(
+                  person: savedPerson,
+                )),
+        (Route<dynamic> route) =>
+            false, // Esto removerá todas las rutas anteriores
       );
     }
   }

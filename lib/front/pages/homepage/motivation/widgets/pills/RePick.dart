@@ -97,6 +97,7 @@ class _RePickState extends State<RePick> {
   }
 
   Future<void> _selectDateAndTime(BuildContext context) async {
+    widget.person.firstPill = true;
     final currentDate = DateTime.now();
     final selectedDate = await showDatePicker(
       context: context,

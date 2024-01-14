@@ -53,7 +53,9 @@ class PushNotification {
       context,
       MaterialPageRoute(
         builder: (context) => (!_isSameDate(
-                    person.lastDate != null ? person.lastDate! : DateTime.now(),
+                    person.lastDate != null
+                        ? person.lastDate!
+                        : person.lastDate = DateTime.now(),
                     DateTime.now()) ||
                 (_isSameDate(person.dateTime, DateTime.now()) &&
                     !person.firstPill))

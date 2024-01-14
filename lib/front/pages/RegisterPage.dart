@@ -153,9 +153,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
       if (success) {
         person.save();
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => HomePage(person: person)),
+          MaterialPageRoute(
+              builder: (context) => HomePage(
+                    person: person,
+                  )),
+          (Route<dynamic> route) =>
+              false, // Esto removerá todas las rutas anteriores
         );
       } else {
         print('ERRORRRRRR');
@@ -166,9 +171,14 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _checkSavedPerson() async {
     final savedPerson = await PersonRepository.getSavedPerson();
     if (savedPerson != null) {
-      Navigator.pushReplacement(
+      Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => HomePage(person: savedPerson)),
+        MaterialPageRoute(
+            builder: (context) => HomePage(
+                  person: person,
+                )),
+        (Route<dynamic> route) =>
+            false, // Esto removerá todas las rutas anteriores
       );
     }
   }
