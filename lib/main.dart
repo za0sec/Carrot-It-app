@@ -1,3 +1,4 @@
+import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymDone/GymDone.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/pills/Counter.dart';
 import 'package:carrot/front/pages/homepage/profile/Info.dart';
 import 'package:carrot/front/pages/WelcomePage.dart';
@@ -31,25 +32,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Carrot it!',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFfb901c)),
+    return MediaQuery(
+      data:
+          MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(0.85)),
+      child: ChangeNotifierProvider(
+        create: (context) => MyAppState(),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Carrot it!',
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFfb901c)),
+          ),
+          // Usa una nueva instancia de MediaQueryData
+          home: WelcomePage(),
+          routes: {
+            '/second': (context) => HomePage(
+                  person: Person('', 0),
+                ),
+            '/settings': (context) => SettingsScreen(person: Person('', 0)),
+            '/counter': (context) => Counter(person: Person('', 0)),
+            '/rePick': (context) => RePick(person: Person('', 0)),
+            '/info': (context) => Information(),
+            '/gymdone': (context) => GymDone(person: Person('', 0)),
+          },
         ),
-        home: WelcomePage(),
-        routes: {
-          '/second': (context) => HomePage(
-                person: Person('', 0),
-              ),
-          '/settings': (context) => SettingsScreen(person: Person('', 0)),
-          '/counter': (context) => Counter(person: Person('', 0)),
-          '/rePick': (context) => RePick(person: Person('', 0)),
-          '/info': (context) => Information(),
-        },
       ),
     );
   }

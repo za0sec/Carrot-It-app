@@ -44,7 +44,11 @@ class _GymDoneState extends State<GymDone> {
           ),
         ],
       ),
-      body: _isCurrentDaySelected && widget.person.gymDate != DateTime.now()
+      body: (_isCurrentDaySelected &&
+              DateTime(widget.person.gymDate.year, widget.person.gymDate.month,
+                      widget.person.gymDate.day) !=
+                  DateTime(DateTime.now().year, DateTime.now().month,
+                      DateTime.now().day))
           ? YesDay(person: widget.person)
           : NotDay(person: widget.person),
     );

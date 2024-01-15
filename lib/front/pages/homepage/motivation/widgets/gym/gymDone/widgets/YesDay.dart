@@ -1,5 +1,7 @@
 import 'package:carrot/back/network/NetworkUtility.dart';
 import 'package:carrot/back/person/Person.dart';
+import 'package:carrot/front/pages/homepage/HomePage.dart';
+import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymDone/GymDone.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymDone/widgets/NotDay.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymPage/GymPage.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/utilities/GymMap.dart';
@@ -67,8 +69,7 @@ class _YesDayState extends State<YesDay> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.only(
-                bottom: 100.0), // Ajusta este valor a tus necesidades
+            padding: EdgeInsets.only(bottom: 100.0),
             child: ElevatedButton(
               onPressed: () async {
                 Navigator.pushReplacement(
@@ -95,11 +96,12 @@ class _YesDayState extends State<YesDay> {
       LatLng ubicacionObjetivo = widget.person.coords!;
       if (_isInLocation(posicionActual, ubicacionObjetivo, 100)) {
         print("Estás cerca de la ubicación objetivo!");
+        widget.person.gymDate = DateTime.now();
         widget.person.addCarrotsGym();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => NotDay(
+              builder: (context) => GymDone(
                     person: widget.person,
                   )),
         );
