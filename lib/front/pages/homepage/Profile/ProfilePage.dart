@@ -321,7 +321,7 @@ class _State extends State<Profile> {
                 onPressed: () async {
                   try {
                     int carrots = await NetworkService.updateCarrotsFromServer(
-                        widget.person.token!);
+                        widget.person.name);
                     setState(() {
                       widget.person.carrots = carrots;
                     });
