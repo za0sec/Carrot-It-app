@@ -121,6 +121,25 @@ class NetworkService {
     }
   }
 
+  static Future<bool> uploadProfileImage(
+      String profileImagePath, String username) async {
+    final url = Uri.parse('$_baseUrl/uploadProfileImage');
+    try {
+      final response = await http.post(
+        url,
+        headers: header,
+        body: json.encode({
+          'username': username,
+          'profileimagepath': profileImagePath,
+        }),
+      );
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Error al subir la imagen de perfil al servidor.');
+      return false;
+    }
+  }
+
   static Future<bool> saveGym(
       String username, String gym, List<bool> selected, LatLng coords) async {
     final url = Uri.parse('$_baseUrl/saveGym');

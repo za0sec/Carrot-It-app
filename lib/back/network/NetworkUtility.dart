@@ -21,6 +21,17 @@ class NetworkUtility {
     return null;
   }
 
+  static Future<DateTime> getCurrentDate() async {
+    final response = await http.get(Uri.parse(
+        'http://worldtimeapi.org/api/timezone/America/Argentina/Buenos_Aires'));
+
+    if (response.statusCode == 200) {
+      return DateTime.parse(jsonDecode(response.body)['datetime']);
+    } else {
+      throw Exception('Failed to load current time');
+    }
+  }
+
   static Future<LatLng?> getCoordenates(String direccion) async {
     final url = Uri.parse(
         'https://maps.googleapis.com/maps/api/geocode/json?address=${Uri.encodeComponent(direccion)}&key=$apiKey');

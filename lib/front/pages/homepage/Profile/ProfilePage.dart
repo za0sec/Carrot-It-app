@@ -45,6 +45,8 @@ class _State extends State<Profile> {
       setState(() {
         _image = File(imagePath);
       });
+    } else {
+      print(imagePath);
     }
   }
 
@@ -94,6 +96,7 @@ class _State extends State<Profile> {
         _image = imageFile;
         widget.person.profileImagePath = imageFile.path;
         widget.person.save();
+        NetworkService.uploadProfileImage(imageFile.path, widget.person.name);
       });
     }
   }

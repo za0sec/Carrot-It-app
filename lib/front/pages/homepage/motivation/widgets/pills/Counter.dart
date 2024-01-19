@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:carrot/back/network/NetworkUtility.dart';
 import 'package:carrot/front/pages/homepage/HomePage.dart';
 import 'package:flutter/material.dart';
 
@@ -111,7 +112,7 @@ class _CounterState extends State<Counter> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -121,7 +122,7 @@ class _CounterState extends State<Counter> {
                 if (!widget.person.firstPill) {
                   widget.person.firstPill = true;
                 }
-                widget.person.setCarrots(DateTime.now());
+                widget.person.setCarrots(await NetworkUtility.getCurrentDate());
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(

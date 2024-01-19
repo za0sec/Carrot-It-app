@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 
 import '../../../../back/person/Person.dart';
 import '../../../../back/prizes/prizes.dart';
-import '../profile/SettingsScreen.dart';
 
 class Carrots extends StatefulWidget {
   final Person person;

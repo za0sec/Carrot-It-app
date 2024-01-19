@@ -96,7 +96,7 @@ class _YesDayState extends State<YesDay> {
       LatLng ubicacionObjetivo = widget.person.coords!;
       if (_isInLocation(posicionActual, ubicacionObjetivo, 100)) {
         print("Estás cerca de la ubicación objetivo!");
-        widget.person.gymDate = DateTime.now();
+        widget.person.gymDate = await NetworkUtility.getCurrentDate();
         widget.person.addCarrotsGym();
         Navigator.pushReplacement(
           context,

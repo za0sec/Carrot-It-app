@@ -1,3 +1,4 @@
+import 'package:carrot/back/network/NetworkUtility.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymDone/widgets/YesDay.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymDone/widgets/notDay.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,12 @@ class _GymDoneState extends State<GymDone> {
   @override
   void initState() {
     super.initState();
-    final now = DateTime.now();
+    initializeDate();
+  }
+
+  Future<void> initializeDate() async {
+    final now = await NetworkUtility.getCurrentDate();
+    print(now);
     final formatter = DateFormat('EEEE');
     print(formatter.format(now));
     _isCurrentDaySelected =
