@@ -33,6 +33,7 @@ class PersonRepository {
       'gym': person.gym,
       'lat': person.coords?.latitude,
       'lng': person.coords?.longitude,
+      'firstPill': person.firstPill,
       'daysOfWeekSelected': person.daysOfWeekSelected != null
           ? person.daysOfWeekSelected!.join(',')
           : null,

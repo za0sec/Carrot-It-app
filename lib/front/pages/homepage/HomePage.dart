@@ -1,5 +1,6 @@
 import 'package:carrot/front/pages/homepage/motivation/Motivation.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/pills/Counter.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import '../../../back/person/Person.dart';
 import '../../../src/providers/push_notifications_provider.dart';
@@ -30,6 +31,7 @@ class _MotivationalState extends State<HomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance!.addObserver(this);
     pushNotification = PushNotification(widget.person);
     pushNotification.initNotifications();
+    handleInitialMessage();
 
     pages = [
       Motivation(person: widget.person),
@@ -144,6 +146,32 @@ class _MotivationalState extends State<HomePage> with WidgetsBindingObserver {
         currentIndex: _selectedIndex,
         selectedItemColor: Color(0xFFfb901c),
         onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  void handleInitialMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      // Maneja la notificación inicial aquí
+      navigateToCounter(context, startTimer: true);
+    }
+  }
+
+  void navigateToCounter(BuildContext context, {required bool startTimer}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => (!_isSameDate(
+                    widget.person.lastDate != null
+                        ? widget.person.lastDate!
+                        : widget.person.lastDate = DateTime.now(),
+                    DateTime.now()) ||
+                (_isSameDate(widget.person.dateTime, DateTime.now()) &&
+                    !widget.person.firstPill))
+            ? Counter(person: widget.person, startTimerOnLoad: startTimer)
+            : HomePage(person: widget.person),
       ),
     );
   }

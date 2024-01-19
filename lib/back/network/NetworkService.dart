@@ -41,8 +41,14 @@ class NetworkService {
     }
   }
 
-  static Future<void> updateCarrots(String username, int newCarrots,
-      int sumCarrots, int multiplier, int days, DateTime? lastDate) async {
+  static Future<void> updateCarrots(
+      String username,
+      int newCarrots,
+      int sumCarrots,
+      int multiplier,
+      int days,
+      DateTime? lastDate,
+      bool firstPill) async {
     final url = Uri.parse('$_baseUrl/updateCarrots');
     var body = json.encode({
       'username': username,
@@ -50,7 +56,8 @@ class NetworkService {
       'sumCarrots': sumCarrots,
       'multiplier': multiplier,
       'days': days,
-      'lastDate': lastDate?.toIso8601String()
+      'lastDate': lastDate?.toIso8601String(),
+      'firstpill': firstPill,
     });
     print('Enviando: $body');
 

@@ -6,6 +6,7 @@ import 'package:carrot/front/pages/homepage/HomePage.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/pills/RePick.dart';
 import 'package:carrot/front/pages/homepage/profile/SettingsScreen.dart';
 import 'package:english_words/english_words.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

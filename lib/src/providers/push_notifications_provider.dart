@@ -1,5 +1,6 @@
 import 'package:carrot/front/pages/homepage/HomePage.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/pills/Counter.dart';
+import 'package:carrot/main.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

@@ -42,7 +42,7 @@ class Person {
     this.save();
     NetworkService.saveDateGym(this.name, this.gymDate);
     NetworkService.updateCarrots(this.name, this.carrots, this.sumCarrots,
-        this.multiplier, this.days, this.lastDate);
+        this.multiplier, this.days, this.lastDate, this.firstPill);
   }
 
   void setCarrots(DateTime actualDate) async {
@@ -53,7 +53,7 @@ class Person {
     sumCarrots = _applyMultiplierToCarrots(sumCarrots);
     _updateCarrotsCount(sumCarrots);
     await NetworkService.updateCarrots(
-        name, carrots, sumCarrots, multiplier, days, lastDate);
+        name, carrots, sumCarrots, multiplier, days, lastDate, firstPill);
     save();
   }
 
@@ -145,6 +145,7 @@ class Person {
         token = personMap['token'],
         profileImagePath = personMap['profileImagePath'],
         gym = personMap['gym'],
+        firstPill = personMap['firstPill'] ?? false,
         coords = personMap['lat'] != null
             ? LatLng(personMap['lat'], personMap['lng'])
             : null,

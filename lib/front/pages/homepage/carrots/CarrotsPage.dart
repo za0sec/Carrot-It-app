@@ -31,7 +31,7 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     totalDurationMillis =
-        baseDurationMillis * widget.person.carrots.clamp(20, 50);
+        baseDurationMillis * widget.person.carrots.clamp(10, 50);
 
     super.initState();
     _confettiController.play();
@@ -208,7 +208,8 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
                                   person.sumCarrots,
                                   person.multiplier,
                                   person.days,
-                                  person.lastDate);
+                                  person.lastDate,
+                                  person.firstPill);
                               if (widget.person.alertEmail != null) {
                                 NetworkService.sendEmail(
                                     "Canje de Premio",
