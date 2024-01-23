@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:carrot/back/network/NetworkUtility.dart';
 import 'package:carrot/back/person/Person.dart';
 import 'package:carrot/back/prizes/prizes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -42,22 +43,12 @@ class NetworkService {
   }
 
   static Future<void> updateCarrots(
-      String username,
-      int newCarrots,
-      int sumCarrots,
-      int multiplier,
-      int days,
-      DateTime? lastDate,
-      bool firstPill) async {
+      String username, DateTime now, bool firstPill) async {
     final url = Uri.parse('$_baseUrl/updateCarrots');
     var body = json.encode({
       'username': username,
-      'newCarrots': newCarrots,
-      'sumCarrots': sumCarrots,
-      'multiplier': multiplier,
-      'days': days,
-      'lastDate': lastDate?.toIso8601String(),
-      'firstpill': firstPill,
+      'actualDate': now.toIso8601String(),
+      'firstPill': firstPill,
     });
     print('Enviando: $body');
 
@@ -74,6 +65,27 @@ class NetworkService {
       }
     } catch (e) {
       print('Error al enviar la solicitud de actualización: $e');
+    }
+  }
+
+  static Future<void> redeemCarrots(String username, int carrots) async {
+    final url = Uri.parse('$_baseUrl/redeemCarrots');
+    try {
+      final response = await http.post(
+        url,
+        headers: header,
+        body: json.encode({
+          'username': username,
+          'carrots': carrots,
+        }),
+      );
+      if (response.statusCode == 200) {
+        print('Zanahorias canjeadas exitosamente');
+      } else {
+        print('Error al canjear las zanahorias: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error al enviar la solicitud de canje: $e');
     }
   }
 

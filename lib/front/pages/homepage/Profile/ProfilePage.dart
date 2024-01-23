@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:carrot/back/network/NetworkService.dart';
+import 'package:carrot/back/network/NetworkUtility.dart';
 import 'package:carrot/back/person/PersonRepository.dart';
 import 'package:carrot/front/pages/WelcomePage.dart';
 import 'package:carrot/front/pages/homepage/profile/Info.dart';
@@ -349,7 +350,7 @@ class _State extends State<Profile> {
   }
 
   Future<DateTime> _selectDate(BuildContext context) async {
-    final currentDate = DateTime.now();
+    final currentDate = await NetworkUtility.getCurrentDate();
     final DateTime? selectedDate = await showDatePicker(
       context: context,
       initialDate: currentDate,

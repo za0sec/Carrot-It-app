@@ -16,20 +16,24 @@ class GymDone extends StatefulWidget {
 
 class _GymDoneState extends State<GymDone> {
   bool _isCurrentDaySelected = false;
+  late DateTime now;
 
   @override
   void initState() {
-    super.initState();
     initializeDate();
+    super.initState();
   }
 
   Future<void> initializeDate() async {
-    final now = await NetworkUtility.getCurrentDate();
+    now = await NetworkUtility.getCurrentDate();
     print(now);
     final formatter = DateFormat('EEEE');
     print(formatter.format(now));
-    _isCurrentDaySelected =
-        widget.person.getSelectedDaysString().contains(formatter.format(now));
+    setState(() {
+      _isCurrentDaySelected =
+          widget.person.getSelectedDaysString().contains(formatter.format(now));
+    });
+    print(_isCurrentDaySelected);
   }
 
   @override
@@ -50,13 +54,16 @@ class _GymDoneState extends State<GymDone> {
           ),
         ],
       ),
-      body: (_isCurrentDaySelected &&
-              DateTime(widget.person.gymDate.year, widget.person.gymDate.month,
-                      widget.person.gymDate.day) !=
-                  DateTime(DateTime.now().year, DateTime.now().month,
-                      DateTime.now().day))
+      body: shouldShowYesDay()
           ? YesDay(person: widget.person)
           : NotDay(person: widget.person),
     );
+  }
+
+  bool shouldShowYesDay() {
+    return _isCurrentDaySelected &&
+        DateTime(widget.person.gymDate.year, widget.person.gymDate.month,
+                widget.person.gymDate.day) !=
+            DateTime(now.year, now.month, now.day);
   }
 }

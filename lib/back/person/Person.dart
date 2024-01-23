@@ -36,59 +36,19 @@ class Person {
     save();
   }
 
-  void addCarrotsGym() {
-    this.gymDate = DateTime.now();
+  void addCarrotsGym() async {
+    final now = await NetworkUtility.getCurrentDate();
+    this.gymDate = now;
     this.carrots += 10;
     this.save();
     NetworkService.saveDateGym(this.name, this.gymDate);
-    NetworkService.updateCarrots(this.name, this.carrots, this.sumCarrots,
-        this.multiplier, this.days, this.lastDate, this.firstPill);
+    NetworkService.updateCarrots(this.name, now, this.firstPill);
   }
 
   void setCarrots(DateTime actualDate) async {
-    _resetDaysIfNotConsecutive(actualDate);
-    sumCarrots++;
-    days++;
-    sumCarrots = _limitCarrotsToMaximum(days);
-    sumCarrots = _applyMultiplierToCarrots(sumCarrots);
-    _updateCarrotsCount(sumCarrots);
-    await NetworkService.updateCarrots(
-        name, carrots, sumCarrots, multiplier, days, lastDate, firstPill);
+    await NetworkService.updateCarrots(name, actualDate, firstPill);
+    carrots = await NetworkService.updateCarrotsFromServer(this.name);
     save();
-  }
-
-  void _resetDaysIfNotConsecutive(DateTime actualDate) {
-    if (lastDate != null && !_isNextDay(actualDate, lastDate!)) {
-      days = 0;
-      multiplier = 0;
-      sumCarrots = 0;
-    }
-    lastDate = actualDate;
-  }
-
-  bool _isNextDay(DateTime date1, DateTime date2) {
-    final difference = date1.difference(date2).inDays;
-    return difference == 1;
-  }
-
-  int _limitCarrotsToMaximum(int days) {
-    return days >= 7 ? 7 : days;
-  }
-
-  int _applyMultiplierToCarrots(int carrots) {
-    if (_everySeventhDay()) {
-      multiplier++;
-      return carrots + (carrots * multiplier);
-    }
-    return carrots;
-  }
-
-  bool _everySeventhDay() {
-    return days % 7 == 0;
-  }
-
-  void _updateCarrotsCount(int carrots) {
-    this.carrots += carrots;
   }
 
   void setToken(String? token) {
@@ -173,13 +133,11 @@ class Person {
 
   static List<bool>? _handleDaysOfWeekSelected(dynamic daysOfWeek) {
     if (daysOfWeek is String) {
-      // Si es un String, utiliza _parseDaysOfWeekSelected
       return _parseDaysOfWeekSelected(daysOfWeek);
     } else if (daysOfWeek is List) {
-      // Si es una List, conviértela directamente
       return List<bool>.from(daysOfWeek);
     }
-    return null; // O manejar de otra manera si es necesario
+    return null;
   }
 
   bool get isEmpty => name.isEmpty;

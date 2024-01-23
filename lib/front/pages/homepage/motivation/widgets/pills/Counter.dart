@@ -122,7 +122,10 @@ class _CounterState extends State<Counter> {
                 if (!widget.person.firstPill) {
                   widget.person.firstPill = true;
                 }
-                widget.person.setCarrots(await NetworkUtility.getCurrentDate());
+                setState(() async {
+                  widget.person
+                      .setCarrots(await NetworkUtility.getCurrentDate());
+                });
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
