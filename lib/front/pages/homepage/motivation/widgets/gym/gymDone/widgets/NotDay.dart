@@ -4,7 +4,6 @@ import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymPage/GymPa
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/utilities/GymMap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class NotDay extends StatefulWidget {

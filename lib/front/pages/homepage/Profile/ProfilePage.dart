@@ -5,11 +5,9 @@ import 'package:carrot/back/person/PersonRepository.dart';
 import 'package:carrot/front/pages/WelcomePage.dart';
 import 'package:carrot/front/pages/homepage/profile/Info.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modern_form_line_awesome_icons/modern_form_line_awesome_icons.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
 
 import '../../../../back/person/Person.dart';
 import 'ProfileMenuWidget.dart';

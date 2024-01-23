@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:google_maps_webservice/places.dart';
 
 class PlaceAutocompleteResponse {
   final String? status;

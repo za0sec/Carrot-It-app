@@ -16,12 +16,13 @@ class GymDone extends StatefulWidget {
 
 class _GymDoneState extends State<GymDone> {
   bool _isCurrentDaySelected = false;
-  late DateTime now;
+  late final DateTime now;
+  late Future<bool> _shouldShowYesDayFuture;
 
   @override
   void initState() {
-    initializeDate();
     super.initState();
+    _shouldShowYesDayFuture = shouldShowYesDay();
   }
 
   Future<void> initializeDate() async {
@@ -54,13 +55,26 @@ class _GymDoneState extends State<GymDone> {
           ),
         ],
       ),
-      body: shouldShowYesDay()
-          ? YesDay(person: widget.person)
-          : NotDay(person: widget.person),
+      body: FutureBuilder<bool>(
+        future: _shouldShowYesDayFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            // Aquí manejas el resultado del futuro
+            return snapshot.data!
+                ? YesDay(person: widget.person)
+                : NotDay(person: widget.person);
+          }
+        },
+      ),
     );
   }
 
-  bool shouldShowYesDay() {
+  Future<bool> shouldShowYesDay() async {
+    await initializeDate();
     return _isCurrentDaySelected &&
         DateTime(widget.person.gymDate.year, widget.person.gymDate.month,
                 widget.person.gymDate.day) !=

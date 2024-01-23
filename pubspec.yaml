@@ -21,7 +21,7 @@ dependencies:
   flutter_local_notifications:
   intl:
   http:
-  image_picker:
+  image_picker: ^1.0.5
   path_provider:
   flutter_google_places:
   google_maps_flutter:
@@ -32,6 +32,8 @@ dependencies:
   url_launcher:
   flutter_dotenv:
   geolocator:
+  http_parser:
+  flutter_image_compress:
 
 dev_dependencies:
   flutter_test:

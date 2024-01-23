@@ -1,14 +1,15 @@
 import 'dart:convert';
-import 'package:carrot/back/network/NetworkUtility.dart';
 import 'package:carrot/back/person/Person.dart';
 import 'package:carrot/back/prizes/prizes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 
 class NetworkService {
   static const String _baseUrl = 'http://za0sec.changeip.co:3000';
+  //static const String _baseUrl = 'http://192.168.0.81:3333';
   static const Map<String, String> header = {
     "Content-Type": "application/json"
   };
@@ -249,6 +250,25 @@ class NetworkService {
       print('OK');
     } else {
       print('Error al enviar email');
+    }
+  }
+
+  static Future<bool> sendImage(String imagePath) async {
+    var url = Uri.parse('$_baseUrl/uploadImage');
+    var request = http.MultipartRequest('POST', url);
+
+    request.files.add(await http.MultipartFile.fromPath(
+      'imagen',
+      imagePath,
+      contentType: MediaType('image', 'jpeg'),
+    ));
+
+    try {
+      var response = await request.send().timeout(Duration(seconds: 60));
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Error al enviar la imagen: $e');
+      return false;
     }
   }
 

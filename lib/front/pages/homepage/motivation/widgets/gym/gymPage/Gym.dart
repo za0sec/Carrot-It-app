@@ -2,7 +2,6 @@ import 'package:carrot/back/person/Person.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymDone/GymDone.dart';
 import 'package:carrot/front/pages/homepage/motivation/widgets/gym/gymPage/GymPage.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Gym extends StatefulWidget {
   final Person person;

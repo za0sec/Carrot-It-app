@@ -206,6 +206,8 @@ class _GymPageState extends State<GymPage> {
                       widget.person.daysOfWeekSelected!,
                       widget.person.coords!);
                   if (success) {
+                    widget.person.gymDate =
+                        DateTime.now().subtract(Duration(days: 1));
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

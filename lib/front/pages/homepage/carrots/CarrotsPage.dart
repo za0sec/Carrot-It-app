@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:math';
 import 'package:carrot/back/network/NetworkService.dart';
 import 'package:confetti/confetti.dart';
