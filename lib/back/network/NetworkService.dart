@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 
 class NetworkService {
   static const String _baseUrl = 'http://za0sec.changeip.co:3000';
-  //static const String _baseUrl = 'http://192.168.0.81:3333';
   static const Map<String, String> header = {
     "Content-Type": "application/json"
   };

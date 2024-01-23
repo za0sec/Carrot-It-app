@@ -52,24 +52,39 @@ class _YesDayState extends State<YesDay> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10),
-                        child: Text(
-                          'Are you at your gym?',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFfb901c),
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'What\'ll happen when Check-in button is pressed?',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFfb901c),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              '1. We\'ll check if your location matches the gym\'s.\n'
+                              '2. You\'ll need to take a photo of yourself exercising.\n'
+                              '3. If our AI confirms your exercise, you\'ll earn your reward!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () async {
+                                await _handleCheckIn();
+                              },
+                              child: Text('Check in!'),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          await _handleCheckIn();
-                        },
-                        child: Text('Check in!'),
                       ),
                     ],
                   ),

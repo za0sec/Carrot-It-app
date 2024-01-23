@@ -310,27 +310,45 @@ class _State extends State<Profile> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add Carrots'),
-          content: Text('You can add carrots here.'),
+          title: Text('Admin Menu'),
+          content: Text('You can modify things here.'),
           actions: <Widget>[
-            ElevatedButton(
-                child: Text('Add Carrots'),
-                onPressed: () async {
-                  widget.person.setCarrots(await _selectDate(context));
-                }),
-            ElevatedButton(
-                child: Text('Update Carrots'),
-                onPressed: () async {
-                  try {
-                    int carrots = await NetworkService.updateCarrotsFromServer(
-                        widget.person.name);
-                    setState(() {
-                      widget.person.carrots = carrots;
-                    });
-                  } catch (e) {
-                    print('Error: $e');
-                  }
-                }),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    ElevatedButton(
+                        child: Text('Add Carrots'),
+                        onPressed: () async {
+                          widget.person.setCarrots(await _selectDate(context));
+                        }),
+                    ElevatedButton(
+                        child: Text('Update Carrots'),
+                        onPressed: () async {
+                          try {
+                            int carrots =
+                                await NetworkService.updateCarrotsFromServer(
+                                    widget.person.name);
+                            setState(() {
+                              widget.person.carrots = carrots;
+                            });
+                          } catch (e) {
+                            print('Error: $e');
+                          }
+                        }),
+                  ],
+                ),
+                ElevatedButton(
+                    child: Text('Reset gymDate'),
+                    style: ButtonStyle(
+                      alignment: Alignment.center,
+                    ),
+                    onPressed: () async {
+                      widget.person.gymDate =
+                          DateTime.now().subtract(Duration(days: 1));
+                    }),
+              ],
+            ),
           ],
         );
       },
