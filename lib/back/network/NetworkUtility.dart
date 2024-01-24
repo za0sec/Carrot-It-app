@@ -26,7 +26,8 @@ class NetworkUtility {
         'http://worldtimeapi.org/api/timezone/America/Argentina/Buenos_Aires'));
 
     if (response.statusCode == 200) {
-      return DateTime.parse(jsonDecode(response.body)['datetime']);
+      DateTime dateTime = DateTime.parse(jsonDecode(response.body)['datetime']);
+      return dateTime.toLocal();
     } else {
       throw Exception('Failed to load current time');
     }
