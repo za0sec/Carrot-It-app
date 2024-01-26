@@ -257,6 +257,7 @@ class _GymPageState extends State<GymPage> {
       widget.person.daysOfWeekSelected = daysSelected;
       widget.person.save();
       showCheckboxes = false;
+      widget.person.gymStreak = 0;
       // Aquí puedes guardar la instancia de Person si es necesario
       // Por ejemplo: widget.person.save();
     });

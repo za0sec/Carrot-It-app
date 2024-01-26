@@ -67,3 +67,4 @@ flutter:
     - .env
     - lib/front/assets/images/
     -  lib/front/assets/icons/
+    - lib/front/assets/gifs/

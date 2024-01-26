@@ -174,7 +174,8 @@ class NetworkService {
     }
   }
 
-  static Future<bool> saveDateGym(String username, DateTime gymDate) async {
+  static Future<bool> saveDateGym(
+      String username, DateTime gymDate, int carrots, int gymStreak) async {
     final url = Uri.parse('$_baseUrl/saveDateGym');
     try {
       final response = await http.post(
@@ -183,6 +184,8 @@ class NetworkService {
         body: json.encode({
           'username': username,
           'gymdate': gymDate.toIso8601String(),
+          'carrots': carrots,
+          'gymstreak': gymStreak
         }),
       );
       return response.statusCode == 200;

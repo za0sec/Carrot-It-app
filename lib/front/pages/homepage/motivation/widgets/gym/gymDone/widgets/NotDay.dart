@@ -18,11 +18,58 @@ class NotDay extends StatefulWidget {
 String apiKey = dotenv.env['GOOGLE_API_KEY']!;
 late LatLng? location;
 
-class _NotDayState extends State<NotDay> {
+class _NotDayState extends State<NotDay> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<int> _animation;
+  int baseDurationMillis = 100; // Duración base de 100 milisegundos
+  late int totalDurationMillis;
+
   @override
   void initState() {
     location = widget.person.coords;
+    totalDurationMillis =
+        baseDurationMillis * widget.person.gymStreak.clamp(10, 50);
+
     super.initState();
+    _controller = AnimationController(
+      duration: Duration(milliseconds: totalDurationMillis),
+      vsync: this,
+    );
+
+    _animation = IntTween(begin: 0, end: widget.person.gymStreak).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.linearToEaseOut,
+      ),
+    )..addListener(() {
+        setState(() {});
+      });
+
+    // Inicia la animación
+    _controller.forward();
+  }
+
+  @override
+  void didUpdateWidget(NotDay oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.person.gymStreak != widget.person.gymStreak) {
+      _animation =
+          IntTween(begin: _animation.value, end: widget.person.gymStreak)
+              .animate(_controller)
+            ..addListener(() {
+              setState(() {});
+            });
+
+      _controller
+        ..reset()
+        ..forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -33,38 +80,56 @@ class _NotDayState extends State<NotDay> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 40),
+            SizedBox(height: 25),
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
               child: Text(
-                'Your actual selected gym is\n${widget.person.gym}',
+                'Gym Streak',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 45,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFFfb901c),
                 ),
               ),
             ),
-            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'lib/front/assets/gifs/flame.gif',
+                  scale: 4,
+                ), // Reemplaza 'path_to_gif.gif' con la ruta de tu GIF
+                SizedBox(width: 10),
+                Text(
+                  '${_animation.value}',
+                  style: TextStyle(
+                    fontSize: 65,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFfb901c),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 60),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                'Every ${widget.person.getSelectedDaysString().join(', ')}',
+                'Every ${widget.person.getSelectedDaysString().join(', ')} at ${widget.person.gym}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFFfb901c),
+                  color: Colors.grey,
                 ),
               ),
             ),
-            SizedBox(height: 50),
             GymMap(
               centerFuture: NetworkUtility.getCoordenates(widget.person.gym!),
               userLocation: location,
             ),
+            SizedBox(height: 60),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

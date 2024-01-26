@@ -24,6 +24,7 @@ class Person {
   Map<DateTime, List<Prizes>> redeems = {};
   List<bool>? daysOfWeekSelected;
   bool firstPill = false;
+  int gymStreak = 0;
   Person(this.name, this.carrots, {this.profileImagePath});
 
   @override
@@ -41,8 +42,8 @@ class Person {
     this.gymDate = now;
     this.carrots += 10;
     this.save();
-    NetworkService.saveDateGym(this.name, this.gymDate);
-    NetworkService.updateCarrots(this.name, now, this.firstPill);
+    NetworkService.saveDateGym(
+        this.name, this.gymDate, this.carrots, this.gymStreak);
   }
 
   void setCarrots(DateTime actualDate) async {
@@ -99,12 +100,28 @@ class Person {
     return selectedDays;
   }
 
+  Future<bool> _isDayAfterSelectedDay() async {
+    var now = await NetworkUtility.getCurrentDate();
+    int yesterdayIndex = (now.weekday - 2) %
+        7; // -2 porque DateTime.now().weekday comienza con 1 siendo Lunes.
+    return daysOfWeekSelected != null &&
+        daysOfWeekSelected!.length > yesterdayIndex &&
+        daysOfWeekSelected![yesterdayIndex];
+  }
+
+  void incrementGymStreak() async {
+    if (await _isDayAfterSelectedDay()) {
+      gymStreak++;
+    }
+  }
+
   Person.fromMap(Map<String, dynamic> personMap, this.redeems)
       : name = personMap['name'],
         carrots = personMap['carrots'],
         token = personMap['token'],
         profileImagePath = personMap['profileImagePath'],
         gym = personMap['gym'],
+        gymStreak = personMap['gymStreak'],
         firstPill = personMap['firstPill'] ?? false,
         coords = personMap['lat'] != null
             ? LatLng(personMap['lat'], personMap['lng'])

@@ -31,6 +31,7 @@ class PersonRepository {
       'alertEmail': person.alertEmail,
       'redeems': json.encode(redeemsMap),
       'gym': person.gym,
+      'gymStreak': person.gymStreak,
       'lat': person.coords?.latitude,
       'lng': person.coords?.longitude,
       'firstPill': person.firstPill,

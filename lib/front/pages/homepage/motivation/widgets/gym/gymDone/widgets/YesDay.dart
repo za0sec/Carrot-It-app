@@ -137,6 +137,7 @@ class _YesDayState extends State<YesDay> {
               backgroundColor: Colors.green,
             ),
           );
+          widget.person.incrementGymStreak();
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
