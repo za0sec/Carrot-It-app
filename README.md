@@ -1,16 +1,18 @@
-# carrot
+# Carrot It! Motivation App
 
-A new Flutter project.
+## Description
+Carrot It! is a motivation app designed to promote productivity and personal well-being. With an interactive user interface and engaging features, Carrot It! makes achieving your goals fun and rewarding.
 
-## Getting Started
+## Features
+- **Login Page:** Secure access with options to log in or sign up.
+- **Registration Page:** Create a new account with email verification.
+- **Home Page:** With a bottom navigation bar to access Games, Carrot Rewards, and User Profile.
+- **Games Section:** Interactive games to enhance productivity and focus.
+- **Carrot Rewards:** A rewards system to track and redeem carrots earned by achievements.
+- **User Profile:** Personal settings, developer information, and an option to manually add carrots (password protected).
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Technologies Used
+- **Frontend:** Flutter, Dart
+- **Backend:** Node.js, Express, body-parser, node-cron, firebase-admin
+- **Database:** PostgreSQL
+- **Server:** Raspberry Pi
