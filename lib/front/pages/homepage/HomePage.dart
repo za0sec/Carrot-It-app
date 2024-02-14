@@ -43,7 +43,6 @@ class _MotivationalState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Configurar el manejador para cuando se abra la app desde una notificación
     pushNotification.setOnMessageOpenedApp(context);
   }
 

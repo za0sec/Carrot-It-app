@@ -119,12 +119,11 @@ class _CounterState extends State<Counter> {
                     builder: (context) => HomePage(person: widget.person),
                   ),
                 );
-                if (!widget.person.firstPill) {
+                DateTime today = await NetworkUtility.getCurrentDate();
+                setState(() {
+                  widget.person.lastDate = today;
                   widget.person.firstPill = true;
-                }
-                setState(() async {
-                  widget.person
-                      .setCarrots(await NetworkUtility.getCurrentDate());
+                  widget.person.setCarrots(today);
                 });
               },
               style: ElevatedButton.styleFrom(

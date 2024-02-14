@@ -197,7 +197,7 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             setState(() {
                               person.redeemPrice(prize.price);
                               NetworkService.redeemCarrots(
@@ -209,14 +209,7 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
                                     widget.person.alertEmail!);
                               }
                             });
-                            DateTime todayDate =
-                                DateTime(today.year, today.month, today.day);
 
-                            if (!widget.person.redeems.containsKey(todayDate)) {
-                              widget.person.redeems[todayDate] = [];
-                            }
-
-                            widget.person.redeems[todayDate]!.add(prize);
                             _onRedeemButtonPressed(prize);
                             // Configura una nueva animación desde el valor actual hasta el nuevo total
                             _animation = IntTween(
@@ -235,6 +228,8 @@ class _CarrotsState extends State<Carrots> with SingleTickerProviderStateMixin {
                             _controller
                               ..reset()
                               ..forward();
+
+                            await widget.person.saveRedeems(prize);
                           },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(

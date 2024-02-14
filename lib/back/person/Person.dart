@@ -115,6 +115,19 @@ class Person {
     }
   }
 
+  Future<void> saveRedeems(Prizes prize) async {
+    DateTime todayDate = await NetworkUtility.getCurrentDate();
+
+    if (!this.redeems.containsKey(todayDate)) {
+      this.redeems[todayDate] = [];
+    }
+    this.redeems[todayDate]!.add(prize);
+
+    String redeems = await PersonRepository.serializeRedeems(this.redeems);
+
+    await NetworkService.saveRedeems(this.name, redeems);
+  }
+
   Person.fromMap(Map<String, dynamic> personMap, this.redeems)
       : name = personMap['name'],
         carrots = personMap['carrots'],

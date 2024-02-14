@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:carrot/back/person/Person.dart';
+import 'package:carrot/back/person/PersonRepository.dart';
 import 'package:carrot/back/prizes/prizes.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -224,7 +225,8 @@ class NetworkService {
       if (response.statusCode == 200) {
         print('Respuesta del servidor: ${response.body}');
         final personMap = json.decode(response.body);
-        Map<DateTime, List<Prizes>> redeems = {};
+        final redeems =
+            await PersonRepository.deserializeRedeems(personMap['redeems']);
         return Person.fromMap(personMap, redeems);
       }
 
@@ -232,6 +234,24 @@ class NetworkService {
     } catch (e) {
       print('Error en la solicitud de inicio de sesión: $e');
       return null;
+    }
+  }
+
+  static Future<void> saveRedeems(String username, String redeems) async {
+    var url = Uri.parse('$_baseUrl/saveRedeems');
+    var response = await http.post(
+      url,
+      headers: header,
+      body: json.encode({
+        'username': username,
+        'redeems': redeems,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('OK');
+    } else {
+      print('Error al enviar redeems');
     }
   }
 

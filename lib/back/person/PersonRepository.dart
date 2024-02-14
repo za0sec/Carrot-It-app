@@ -48,7 +48,6 @@ class PersonRepository {
     final prefs = await SharedPreferences.getInstance();
     String? personJson = prefs.getString('savedPerson');
     if (personJson == null) {
-      print('No saved person found');
       return null;
     }
     try {
@@ -64,13 +63,55 @@ class PersonRepository {
         }).toList();
         redeems[date] = prizes;
       });
-      print(personMap);
-      print('About to call Person.fromMap');
       return Person.fromMap(personMap, redeems);
     } catch (e) {
       print('Error: $e');
       return null;
     }
+  }
+
+  static String serializeRedeems(Map<DateTime, List<Prizes>> redeems) {
+    Map<String, dynamic> redeemsMap = {};
+    redeems.forEach((date, prizes) {
+      String dateString = date.toIso8601String();
+      List<Map<String, dynamic>> prizesList =
+          prizes.map((prize) => _prizeToMap(prize)).toList();
+      redeemsMap[dateString] = prizesList;
+    });
+    return jsonEncode(redeemsMap);
+  }
+
+  static Map<DateTime, List<Prizes>> deserializeRedeems(String jsonStr) {
+    var decoded = jsonDecode(jsonStr);
+    Map<DateTime, List<Prizes>> redeems = {};
+
+    decoded.forEach((dateStr, prizesList) {
+      DateTime date = DateTime.parse(dateStr);
+      List<Prizes> prizes = (prizesList as List<dynamic>)
+          .map((prizeMap) => _mapToPrize(prizeMap))
+          .toList();
+      redeems[date] = prizes;
+    });
+
+    return redeems;
+  }
+
+  static Prizes _mapToPrize(Map<String, dynamic> prizeMap) {
+    String name = prizeMap['name'];
+    for (Prizes prize in Prizes.values) {
+      if (prize.name == name) {
+        return prize;
+      }
+    }
+    throw Exception('Prize not found for name: $name');
+  }
+
+  static Map<String, dynamic> _prizeToMap(Prizes prize) {
+    return {
+      'name': prize.name,
+      'price': prize.price,
+      'description': prize.description,
+    };
   }
 
   static Future<void> clearSavedPerson() async {
