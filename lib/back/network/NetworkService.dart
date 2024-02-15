@@ -107,6 +107,23 @@ class NetworkService {
     }
   }
 
+  static Future<int> getCicleDay(String username) async {
+    final url = Uri.parse(
+        '$_baseUrl/getCicleDay?username=$username'); // Reemplaza con la URL de tu servidor
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        int cicleday = data['cicleday'];
+        return cicleday;
+      } else {
+        throw Exception('Error al obtener el cicleDay desde el servidor');
+      }
+    } catch (e) {
+      throw Exception('Error al conectarse al servidor: $e');
+    }
+  }
+
   static Future<bool> register(
       String username, String password, String token) async {
     final carrots = 0;

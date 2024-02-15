@@ -1,6 +1,7 @@
 import 'package:carrot/back/network/NetworkService.dart';
 import 'package:carrot/back/network/NetworkUtility.dart';
 import 'package:carrot/back/person/PersonRepository.dart';
+import 'package:carrot/front/pages/homepage/profile/SettingsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../prizes/prizes.dart';
@@ -34,7 +35,6 @@ class Person {
 
   void redeemPrice(int carrots) {
     this.carrots -= carrots;
-    save();
   }
 
   void addCarrotsGym() async {
@@ -126,6 +126,8 @@ class Person {
     String redeems = await PersonRepository.serializeRedeems(this.redeems);
 
     await NetworkService.saveRedeems(this.name, redeems);
+
+    save();
   }
 
   Person.fromMap(Map<String, dynamic> personMap, this.redeems)
@@ -159,6 +161,11 @@ class Person {
     if (personMap['lastDate'] != null) {
       lastDate = DateTime.parse(personMap['lastDate']);
     }
+  }
+
+  Future<int> getCicleDay() async {
+    final ret = NetworkService.getCicleDay(name);
+    return ret;
   }
 
   static List<bool>? _handleDaysOfWeekSelected(dynamic daysOfWeek) {

@@ -34,6 +34,7 @@ dependencies:
   geolocator:
   http_parser:
   flutter_image_compress:
+  one_clock:
 
 dev_dependencies:
   flutter_test:
@@ -68,3 +69,4 @@ flutter:
     - lib/front/assets/images/
     -  lib/front/assets/icons/
     - lib/front/assets/gifs/
+    - lib/front/assets/gifs/Pills/

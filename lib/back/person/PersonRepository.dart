@@ -9,12 +9,8 @@ class PersonRepository {
   static Future<void> savePerson(Person person) async {
     final prefs = await SharedPreferences.getInstance();
 
-    Map<String, dynamic> redeemsMap = {};
-    person.redeems.forEach((key, value) {
-      String dateKey = DateFormat('yyyy-MM-dd').format(key);
-      List<String> prizeNames = value.map((prize) => prize.name).toList();
-      redeemsMap[dateKey] = prizeNames;
-    });
+    String redeemsJson = serializeRedeems(person.redeems);
+    print(person.redeems);
 
     final personMap = {
       'name': person.name,
@@ -29,7 +25,7 @@ class PersonRepository {
       'gymDate': person.gymDate.toIso8601String(),
       'multiplier': person.multiplier,
       'alertEmail': person.alertEmail,
-      'redeems': json.encode(redeemsMap),
+      'redeems': redeemsJson, // Actualizado para usar la cadena JSON de redeems
       'gym': person.gym,
       'gymStreak': person.gymStreak,
       'lat': person.coords?.latitude,
@@ -52,17 +48,9 @@ class PersonRepository {
     }
     try {
       Map<String, dynamic> personMap = json.decode(personJson);
-      Map<String, dynamic> redeemsJson =
-          json.decode(personMap['redeems'] as String);
-      Map<DateTime, List<Prizes>> redeems = {};
-      redeemsJson.forEach((key, value) {
-        DateTime date = DateFormat('yyyy-MM-dd').parse(key);
-        List<Prizes> prizes = (value as List).map((name) {
-          return Prizes.values.firstWhere((prize) => prize.name == name,
-              orElse: () => Prizes.chocolate);
-        }).toList();
-        redeems[date] = prizes;
-      });
+      String redeemsJsonString = personMap['redeems'] as String;
+      Map<DateTime, List<Prizes>> redeems =
+          deserializeRedeems(redeemsJsonString);
       return Person.fromMap(personMap, redeems);
     } catch (e) {
       print('Error: $e');

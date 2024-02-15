@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:one_clock/one_clock.dart';
 
 import '../../../../../../back/person/Person.dart';
 
@@ -41,14 +42,21 @@ class _RePickState extends State<RePick> {
                 padding: const EdgeInsets.all(8.0),
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: Text(
-                    'Actually, \nyour blister starts at:\n${DateFormat('dd-MM-yyyy').format(widget.person.dateTime!)}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFFfb901c),
-                    ),
+                  child: FutureBuilder<int>(
+                    future: widget.person.getCicleDay(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<int> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        return Image.asset(
+                          'lib/front/assets/gifs/Pills/Pills${snapshot.data}.gif',
+                          scale: 3.1,
+                        ); // Show image when data is available
+                      }
+                    },
                   ),
                 ),
               ),
